@@ -214,6 +214,89 @@ const Page = () => {
           </div>
         </div>
       </section>
+      <footer className="bg-gray-100 dark:bg-black text-gray-700 dark:text-gray-300">
+        <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          {/* Brand */}
+          <div>
+            <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">
+              Quizium
+            </h2>
+            <p className="text-sm">
+              AI-powered quizzes that adapt to you. Learn smarter, not harder.
+            </p>
+          </div>
+
+          {/* Links */}
+          <div>
+            <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a href="#features" className="hover:underline">
+                  Features
+                </a>
+              </li>
+              <li>
+                <a href="#how-it-works" className="hover:underline">
+                  How It Works
+                </a>
+              </li>
+              <li>
+                <a href="#pricing" className="hover:underline">
+                  Pricing
+                </a>
+              </li>
+              <li>
+                <a href="#faq" className="hover:underline">
+                  FAQ
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h3 className="text-lg font-semibold mb-3">Legal</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a href="#" className="hover:underline">
+                  Terms of Service
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3 className="text-lg font-semibold mb-3">Contact</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                Email:{" "}
+                <a href="" className="hover:underline">
+                  support@quizium.ai
+                </a>
+              </li>
+              <li>
+                Twitter:{" "}
+                <a
+                  href=""
+                  className="hover:underline"
+                >
+                  @quizium
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-300 dark:border-gray-700 py-4 text-center text-xs text-gray-500 dark:text-gray-600">
+          &copy; {new Date().getFullYear()} Quizium. All rights reserved.
+        </div>
+      </footer>
       <button
         onClick={() =>
           signIn("google", { callbackUrl: "/", prompt: "select_account" })
