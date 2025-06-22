@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import { signIn, signOut } from "next-auth/react";
 import { Meteors } from "@/components/magicui/meteors";
 import { NavbarDemo } from "@/components/NavBar";
@@ -19,8 +20,23 @@ import {
   SlidersHorizontal,
   UserPlus,
 } from "lucide-react";
+import { Loader } from "@/components/ui/Loader";
 const Page = () => {
   const { theme } = useTheme();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 400);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <>
       <div className="sticky top-0 left-0 z-10">
@@ -282,10 +298,7 @@ const Page = () => {
               </li>
               <li>
                 Twitter:{" "}
-                <a
-                  href=""
-                  className="hover:underline"
-                >
+                <a href="" className="hover:underline">
                   @quizium
                 </a>
               </li>
@@ -294,7 +307,7 @@ const Page = () => {
         </div>
 
         <div className="border-t border-gray-300 dark:border-gray-700 py-4 text-center text-xs text-gray-500 dark:text-gray-600">
-          &copy; {new Date().getFullYear()} Quizium. All rights reserved.
+          &copy; 2025 Quizium. All rights reserved.
         </div>
       </footer>
       <button

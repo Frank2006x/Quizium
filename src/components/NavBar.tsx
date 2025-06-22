@@ -4,7 +4,6 @@ import {
   NavBody,
   NavItems,
   MobileNav,
-  NavbarLogo,
   NavbarButton,
   MobileNavHeader,
   MobileNavToggle,
@@ -13,6 +12,10 @@ import {
 import { useState } from "react";
 import { ModeToggle } from "./ThemeToggler";
 import { BrainCircuit } from "lucide-react";
+import { RainbowButton } from "./magicui/rainbow-button";
+import { signIn, useSession } from "next-auth/react";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 export function NavbarDemo() {
   const navItems = [
@@ -22,7 +25,7 @@ export function NavbarDemo() {
     },
     {
       name: "Try It Out",
-      link: "#pricing",
+      link: "/home",
     },
     {
       name: "How It Works",
@@ -31,6 +34,7 @@ export function NavbarDemo() {
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <div className="relative w-full">
@@ -43,7 +47,28 @@ export function NavbarDemo() {
           </div>
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="secondary">Login</NavbarButton>
+            <NavbarButton variant="secondary">
+              {!session ? (
+                <RainbowButton
+                  className="p-4"
+                  onClick={() => {
+                    signIn("google", {
+                      callbackUrl: "/home",
+                      prompt: "select_account",
+                    });
+                  }}
+                >
+                  Login
+                </RainbowButton>
+              ) : (
+                <RainbowButton
+                  className="p-2"
+                  onClick={() => redirect("/home")}
+                >
+                  Get started
+                </RainbowButton>
+              )}
+            </NavbarButton>
             <NavbarButton className="p-0">
               <ModeToggle />
             </NavbarButton>
@@ -81,12 +106,28 @@ export function NavbarDemo() {
               </a>
             ))}
             <div className="flex w-full flex-col gap-4">
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-              >
-                Login
+              <NavbarButton variant="secondary">
+                {!session ? (
+                  <RainbowButton
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      signIn("google", {
+                        callbackUrl: "/home",
+                        prompt: "select_account",
+                      });
+                    }}
+                    className="w-full"
+                  >
+                    Login
+                  </RainbowButton>
+                ) : (
+                  <RainbowButton
+                    className="p-2 w-full"
+                    onClick={() => redirect("/home")}
+                  >
+                    Get started
+                  </RainbowButton>
+                )}
               </NavbarButton>
             </div>
           </MobileNavMenu>

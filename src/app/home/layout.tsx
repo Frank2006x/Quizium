@@ -1,19 +1,9 @@
 // app/home/layout.tsx
-
-import { auth } from "@/auth";
+"use client";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
+import { SessionProvider } from "next-auth/react";
 
-export default async function HomeLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  const session = await auth();
-
-  if (!session?.user) {
-    redirect("/"); // Redirect to landing/login page
-  }
-
+export default function HomeLayout({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
