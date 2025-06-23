@@ -37,7 +37,7 @@ export function NavbarDemo() {
   const { data: session } = useSession();
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full z-99">
       <Navbar>
         {/* Desktop Navigation */}
         <NavBody>

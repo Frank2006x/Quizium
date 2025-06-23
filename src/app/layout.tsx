@@ -40,7 +40,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SessionProvider>
-            {/* <NavbarDemo /> */}
             {children}
           </SessionProvider>
         </ThemeProvider>
