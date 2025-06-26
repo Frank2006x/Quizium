@@ -1,25 +1,64 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useQues } from "@/store/useQues";
 import { ModeToggle } from "@/components/ThemeToggler";
+import { useSession } from "next-auth/react";
+import { TextAnimate } from "@/components/magicui/text-animate";
+import PyraLoader from "@/components/pyraLoader";
+
+const loaderTexts = [
+  "Summoning brain cells...",
+  "Brewing up some tricky questions...",
+  "Sharpening the pencils...",
+  "Loading your quiz adventure...",
+  "Tickling neurons...",
+  "Warming up the question engines...",
+  "Fetching brain teasers just for you...",
+  "Powering up the quiz portal...",
+  "Unleashing the quiz beast...",
+  "Generating mind-bending challenges...",
+];
 
 const Home = () => {
-  const { questions, setQuestions } = useQues();
+  const { data: session } = useSession();
+  const slogans = [
+    "Brace yourself, [Username] — today’s quiz won’t conquer itself!",
+    "Ready to rule the quiz realm, [Username]?",
+    "[Username], your quiz conquest starts now!",
+    "It's quiz o'clock, [Username] — time to shine!",
+    "Sharpen your mind, [Username] — the challenge awaits!",
+    "Today’s quiz is calling, [Username] — will you answer?",
+    "[Username], let’s turn questions into victories!",
+    "Step up, [Username] — your knowledge journey begins now!",
+    "Quizium's ready, [Username] — are you?",
+  ];
+  const personalizedSlogans = slogans.map((slogan) =>
+    slogan.replace("[Username]", session!.user!.name!)
+  );
+  const randomSlogan = useRef("");
+  useEffect(() => {
+    randomSlogan.current =
+      personalizedSlogans[
+        Math.floor(Math.random() * personalizedSlogans.length)
+      ];
+  }, []);
+  const { questions, getQuestions, isGenerating } = useQues();
   const [topic, setTopic] = useState("");
-  const handleGenerate = async () => {
-    const res = await fetch("/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ topic }),
-    });
-    const result = await res.json();
-    console.log(result);
+  const [difficulty, setDifficulty] = useState("");
+  const [loaderText, setLoaderText] = useState("");
 
-    setQuestions(result.data);
-    console.log(questions);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const random =
+        loaderTexts[Math.floor(Math.random() * loaderTexts.length)];
+      setLoaderText(random);
+    }, 1000);
+
+    return () => clearInterval(interval); // cleanup
+  }, []);
+  const handleGenerate = async () => {
+    await getQuestions(topic);
   };
 
   return (
@@ -27,24 +66,64 @@ const Home = () => {
       <div className="fixed right-2 top-2">
         <ModeToggle />
       </div>
+      <div className="h-100 flex  flex-col items-center  mx-auto my-auto">
+        {randomSlogan && (
+          <TextAnimate
+            animation="blurIn"
+            as="h1"
+            className="text-2xl mb-4 font-josefin-sans"
+          >
+            {randomSlogan.current}
+          </TextAnimate>
+        )}
+        <div className=" bg-secondary flex gap-4  rounded-3xl p-7 w-200 ">
+          <input
+            type="text"
+            placeholder="Enter your Topic"
+            onChange={(e) => setTopic(e.target.value)}
+            className="w-full rounded-lg  focus:border-0 ring-0 focus:outline-none focus:ring-0 focus:border-none border-none px-4 py-3 text-white   transition"
+          />
 
-      <div className="flex w-full max-w-sm items-center gap-2 mx-auto">
-        <Input
-          type="topic"
-          placeholder="Enter your Topic"
-          onChange={(e) => setTopic(e.target.value)}
-        />
+          <div className="flex gap-4 ">
+            <select
+              onChange={(e) => setDifficulty(e.target.value)}
+              className="w-full max-w-xs rounded-lg  bg-accend px-4 py-3 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
+              defaultValue=""
+            >
+              <option value="" disabled className="bg-accent">
+                Select Difficulty
+              </option>
+              <option value="easy" className="bg-accent">
+                Easy
+              </option>
+              <option value="medium" className="bg-accent">
+                Medium
+              </option>
+              <option value="hard" className="bg-accent">
+                Hard
+              </option>
+            </select>
+            <button
+              onClick={handleGenerate}
+              className="relative inline-flex items-center justify-center h-12 w-64 rounded-full border-2 border-teal-500 bg-slate-900 text-white font-semibold tracking-wide transition-all duration-500 hover:border-emerald-400 hover:text-emerald-300 hover:scale-105 group overflow-hidden"
+            >
+              <span className="relative z-10">Generate</span>
 
-        <button
-          onClick={() => handleGenerate()}
-          className="scale-75 hover:scale-80  group rounded-full relative bg-slate-900 h-12 w-64 border-2 border-teal-600 text-white text-base font-bold  overflow-hidden transform transition-all duration-500  hover:border-emerald-400 hover:text-emerald-300 p-3 text-left before:absolute before:w-10 before:h-10 before:content[''] before:right-2 before:top-2 before:z-10 before:bg-indigo-500 before:rounded-full before:blur-lg before:transition-all before:duration-500 after:absolute after:z-10 after:w-16 after:h-16 after:content[''] after:bg-teal-400 after:right-6 after:top-4 after:rounded-full after:blur-lg after:transition-all after:duration-500 hover:before:right-10 hover:before:-bottom-4 hover:before:blur hover:after:-right-6 hover:after:scale-110"
-        >
-          Generate
-        </button>
+              <span className="absolute w-10 h-10 bg-indigo-500 rounded-full blur-lg right-3 top-2 z-0 transition-all duration-500 group-hover:right-12 group-hover:bottom-[-12px]" />
+              <span className="absolute w-16 h-16 bg-teal-400 rounded-full blur-lg right-6 top-4 z-0 transition-all duration-500 group-hover:-right-6 group-hover:scale-110" />
+            </button>
+          </div>
+        </div>
+        {isGenerating && (
+          <div className="flex flex-col justify-center items-center">
+            <PyraLoader />
+            <h3 className="text-center">{loaderText}</h3>
+          </div>
+        )}
       </div>
-      <div className="mt-8 space-y-6">
+      {/* <div className="mt-8 space-y-6">
         {questions &&
-          questions.map((q, index:number) => {
+          questions.map((q, index: number) => {
             return (
               <div key={index} className=" rounded-lg shadow p-6">
                 <div className="font-semibold text-lg mb-4">{q.question}</div>
@@ -65,9 +144,12 @@ const Home = () => {
               </div>
             );
           })}
-      </div>
+      </div> */}
     </>
   );
 };
 
 export default Home;
+
+{
+}

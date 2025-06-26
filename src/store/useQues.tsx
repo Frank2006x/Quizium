@@ -13,7 +13,19 @@ type quesType = {
 
 export const useQues = create((set) => ({
   questions: [],
-  setQuestions: (ques: quesType[]) => {
-    set({ questions: ques });
+  isGenerating: false,
+  getQuestions: async (topic: string) => {
+    set({ isGenerating: true });
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ topic }),
+    });
+    const result = await res.json();
+    console.log(result);
+
+    set({ questions: result.data, isGenerating: false });
   },
 }));
