@@ -5,8 +5,14 @@ import { ReactNode } from "react";
 import { useSession } from "next-auth/react";
 import { Loader } from "@/components/ui/Loader";
 import { HomeNavBar } from "@/components/HomeNavBar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { HomeSidebar } from "@/components/HomeSidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { BrainCircuit } from "lucide-react";
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession();
@@ -16,15 +22,25 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <SidebarProvider>
-        {/* <div className="sticky top-0 -left-100 z-10 "></div> */}
-        <HomeSidebar />
-        <main className="w-full px-3">
-          <div className="flex flex-row-reverse">
-            <HomeNavBar />
-            <SidebarTrigger />
-          </div>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+            <div className="flex px-4 flex-col-reverse mt-8">
+              <SidebarTrigger className="z-3" />
+
+              <div className="flex justify-center items-center gap-2">
+                <BrainCircuit className="sm:hidden" size={35} />
+                <h1 className="font-josefin-sans text-2xl text-center">
+                  Quizium
+                </h1>
+              </div>
+            </div>
+          </header>
+          <main>
+
           {children}
-        </main>
+          </main>
+        </SidebarInset>
       </SidebarProvider>
     </>
   );
