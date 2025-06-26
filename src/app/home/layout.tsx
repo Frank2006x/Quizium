@@ -4,13 +4,11 @@ import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 import { useSession } from "next-auth/react";
 import { Loader } from "@/components/ui/Loader";
-import { HomeNavBar } from "@/components/HomeNavBar";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { HomeSidebar } from "@/components/HomeSidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { BrainCircuit } from "lucide-react";
 
@@ -36,10 +34,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
               </div>
             </div>
           </header>
-          <main>
-
-          {children}
-          </main>
+          <main>{children}</main>
         </SidebarInset>
       </SidebarProvider>
     </>

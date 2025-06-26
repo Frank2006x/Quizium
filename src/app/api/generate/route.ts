@@ -22,7 +22,7 @@ export async function POST(req) {
         "C": "Option C",
         "D": "Option D"
       },
-      "answer": "CorrectOptionKey"
+      "answer": ["CorrectOptionKey","explanation to the answer"]
     },
     ...
   ]
@@ -31,33 +31,31 @@ export async function POST(req) {
 - Do NOT include any text or explanation before or after the JSON.
 - Do NOT wrap the JSON in code blocks (no \`\`\`).
 - All option keys must be A, B, C, D.
-- The answer must match one of the option keys.
+- The answer must return as array where first element match one of the option key and second element is explaination to the answer.
 - Only return a single valid JSON object.`,
     config: {
       maxOutputTokens: 1000,
       temperature: 0.1,
     },
   });
-  const questions = response.text;
-  //   console.log(response);
-  //   questions = questions
-  //     .replace(/^```json\s*/, "")
-  //     .replace(/```$/, "")
-  //     .trim();
-
-  //   console.log("-------------", questions);
 
   let parsed = null;
 
   try {
-    const fixed = jsonrepair(questions);
+    if (response.text === undefined) {
+      return Response.json({
+        success: false,
+        error: "quiz not generated please try again later",
+      });
+    }
+    const fixed = jsonrepair(response.text);
     parsed = JSON.parse(fixed);
-  } catch (err) {
+  } catch (err: unknown) {
     console.error("❌ Invalid JSON from AI:", err.message);
     return Response.json({
       success: false,
       error: "AI returned incomplete or invalid JSON",
-      questions, // for debugging
+      questions: response.text,
     });
   }
 

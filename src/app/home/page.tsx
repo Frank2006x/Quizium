@@ -44,7 +44,7 @@ const Home = () => {
       </div>
       <div className="mt-8 space-y-6">
         {questions &&
-          questions.map((q, index) => {
+          questions.map((q, index:number) => {
             return (
               <div key={index} className=" rounded-lg shadow p-6">
                 <div className="font-semibold text-lg mb-4">{q.question}</div>

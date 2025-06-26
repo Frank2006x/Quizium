@@ -28,14 +28,12 @@ import {
 import { signOut } from "next-auth/react";
 
 type NavUserProps = {
-  user:
-    | {
+  user:{
         id?: string | undefined;
         name?: string | null | undefined;
         email?: string | null | undefined;
         image?: string | null | undefined;
-      }
-    | undefined;
+      };
 };
 
 export function NavUser({ user }: NavUserProps) {
@@ -53,7 +51,7 @@ export function NavUser({ user }: NavUserProps) {
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
                   src={user.image ?? "/default-avatar.png"}
-                  alt={user.name}
+                  alt={user.name!}
                 />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
@@ -75,7 +73,7 @@ export function NavUser({ user }: NavUserProps) {
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
                     src={user.image ?? "/default-avatar.png"}
-                    alt={user.name}
+                    alt={user.name!}
                   />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
