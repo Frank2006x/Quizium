@@ -6,6 +6,14 @@ import { ModeToggle } from "@/components/ThemeToggler";
 import { useSession } from "next-auth/react";
 import { TextAnimate } from "@/components/magicui/text-animate";
 import PyraLoader from "@/components/pyraLoader";
+import { ShineBorder } from "@/components/magicui/shine-border";
+import { BorderBeam } from "@/components/magicui/border-beam";
+import { Button } from "@/components/ui/button";
+import { motion } from "motion/react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
+import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const loaderTexts = [
   "Summoning brain cells...",
@@ -47,7 +55,7 @@ const Home = () => {
   const [topic, setTopic] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [loaderText, setLoaderText] = useState("");
-
+  const router = useRouter();
   useEffect(() => {
     const interval = setInterval(() => {
       const random =
@@ -66,7 +74,7 @@ const Home = () => {
       <div className="fixed right-2 top-2">
         <ModeToggle />
       </div>
-      <div className="h-100 flex  flex-col items-center  mx-auto my-auto">
+      <div className="h-100 flex  flex-col  items-center  m-auto ">
         {randomSlogan && (
           <TextAnimate
             animation="blurIn"
@@ -76,7 +84,12 @@ const Home = () => {
             {randomSlogan.current}
           </TextAnimate>
         )}
-        <div className=" bg-secondary flex gap-4  rounded-3xl p-7 w-200 ">
+        <div className="relative bg-secondary flex flex-col sm:flex-row gap-4  rounded-3xl p-7 min-w-75 max-w-200 overflow-hidden ">
+          <BorderBeam
+            className="bg-gradient-to-r from-transparent  via-emerald-500  to-transparent"
+            size={200}
+          />
+
           <input
             type="text"
             placeholder="Enter your Topic"
@@ -87,24 +100,30 @@ const Home = () => {
           <div className="flex gap-4 ">
             <select
               onChange={(e) => setDifficulty(e.target.value)}
-              className="w-full max-w-xs rounded-lg  bg-accend px-4 py-3 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
+              className="w-full max-w-xs rounded-lg border  bg-slate-800 text-white px-4  focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition shadow focus:shadow-lg"
               defaultValue=""
             >
-              <option value="" disabled className="bg-accent">
+              <option
+                value=""
+                disabled
+                className="bg-slate-700 text-slate-400 "
+              >
                 Select Difficulty
               </option>
-              <option value="easy" className="bg-accent">
+              <option value="easy" className="text-green-400">
                 Easy
               </option>
-              <option value="medium" className="bg-accent">
+              <option value="medium" className="text-yellow-400">
                 Medium
               </option>
-              <option value="hard" className="bg-accent">
+              <option value="hard" className="text-red-400">
                 Hard
               </option>
             </select>
+
             <button
               onClick={handleGenerate}
+              disabled={questions.length != 0}
               className="relative inline-flex items-center justify-center h-12 w-64 rounded-full border-2 border-teal-500 bg-slate-900 text-white font-semibold tracking-wide transition-all duration-500 hover:border-emerald-400 hover:text-emerald-300 hover:scale-105 group overflow-hidden"
             >
               <span className="relative z-10">Generate</span>
@@ -120,31 +139,35 @@ const Home = () => {
             <h3 className="text-center">{loaderText}</h3>
           </div>
         )}
+        {questions.length != 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="max-w-md mx-auto mt-10"
+          >
+            <Card className="shadow-2xl rounded-2xl border border-slate-200 dark:border-slate-700 relative">
+              <CardHeader>
+                <CardTitle className="text-2xl font-semibold text-center">
+                  Quiz Ready!
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-col items-center gap-4">
+                <p className="text-slate-600 dark:text-slate-300 text-center">
+                  Your quiz has been successfully generated. Click below to
+                  begin!
+                </p>
+                <InteractiveHoverButton
+                  onClick={() => router.push("home/quiz")}
+                >
+                  Start Quiz
+                </InteractiveHoverButton>
+              </CardContent>
+              <ShineBorder shineColor={["#A78BFA", "#38BDF8", "#4ADE80"]} />
+            </Card>
+          </motion.div>
+        )}
       </div>
-      {/* <div className="mt-8 space-y-6">
-        {questions &&
-          questions.map((q, index: number) => {
-            return (
-              <div key={index} className=" rounded-lg shadow p-6">
-                <div className="font-semibold text-lg mb-4">{q.question}</div>
-                <div className="grid grid-cols-1 gap-3">
-                  <div className="border rounded px-4 py-2 hover:bg-emerald-300 cursor-pointer">
-                    {q.options.A}
-                  </div>
-                  <div className="border rounded px-4 py-2 hover:bg-emerald-300 cursor-pointer">
-                    {q.options.B}
-                  </div>
-                  <div className="border rounded px-4 py-2 hover:bg-emerald-300 cursor-pointer">
-                    {q.options.C}
-                  </div>
-                  <div className="border rounded px-4 py-2 hover:bg-emerald-300 cursor-pointer">
-                    {q.options.D}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-      </div> */}
     </>
   );
 };
