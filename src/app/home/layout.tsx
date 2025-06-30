@@ -13,10 +13,10 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { BrainCircuit } from "lucide-react";
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   if (status === "loading") return <Loader />;
-  if (!session) return redirect("/");
+
   return (
     <>
       <SidebarProvider>
