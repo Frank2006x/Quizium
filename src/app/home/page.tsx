@@ -158,7 +158,7 @@ const Home = () => {
                   begin!
                 </p>
                 <InteractiveHoverButton
-                  onClick={() => router.push("home/quiz")}
+                  onClick={() => router.push("/quiz")}
                 >
                   Start Quiz
                 </InteractiveHoverButton>

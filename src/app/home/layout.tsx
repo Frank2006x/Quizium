@@ -1,6 +1,5 @@
 // app/home/layout.tsx
 "use client";
-import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 import { useSession } from "next-auth/react";
 import { Loader } from "@/components/ui/Loader";
