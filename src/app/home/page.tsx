@@ -67,10 +67,11 @@ const Home = () => {
       setLoaderText(random);
     }, 1000);
 
-    return () => clearInterval(interval); 
+    return () => clearInterval(interval);
   }, []);
   const handleGenerate = async () => {
-    await getQuestions(topic,difficulty);
+    await getQuestions(topic, difficulty);
+    console.log(questions);
   };
 
   return (
