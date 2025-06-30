@@ -8,10 +8,8 @@ export function middleware(request: NextRequest) {
   // if no token and not on the public route (/), redirect
   console.log("token-------------", token);
   if (!token) {
-    console.log("helo");
     return NextResponse.redirect(new URL("/", request.url));
   }
-  console.log(request.url);
   return NextResponse.next();
 }
 

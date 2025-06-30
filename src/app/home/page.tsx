@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { Input } from "@/components/ui/input";
 import { useQues } from "@/store/useQues";
 import { ModeToggle } from "@/components/ThemeToggler";
 import { useSession } from "next-auth/react";
@@ -8,12 +7,17 @@ import { TextAnimate } from "@/components/magicui/text-animate";
 import PyraLoader from "@/components/pyraLoader";
 import { ShineBorder } from "@/components/magicui/shine-border";
 import { BorderBeam } from "@/components/magicui/border-beam";
-import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 const loaderTexts = [
   "Summoning brain cells...",
@@ -53,7 +57,7 @@ const Home = () => {
   }, []);
   const { questions, getQuestions, isGenerating } = useQues();
   const [topic, setTopic] = useState("");
-  const [difficulty, setDifficulty] = useState("");
+  const [difficulty, setDifficulty] = useState("medium");
   const [loaderText, setLoaderText] = useState("");
   const router = useRouter();
   useEffect(() => {
@@ -63,10 +67,10 @@ const Home = () => {
       setLoaderText(random);
     }, 1000);
 
-    return () => clearInterval(interval); // cleanup
+    return () => clearInterval(interval); 
   }, []);
   const handleGenerate = async () => {
-    await getQuestions(topic);
+    await getQuestions(topic,difficulty);
   };
 
   return (
@@ -97,34 +101,31 @@ const Home = () => {
             className="w-full rounded-lg  focus:border-0 ring-0 focus:outline-none focus:ring-0 focus:border-none border-none px-4 py-3 text-white   transition"
           />
 
-          <div className="flex gap-4 ">
-            <select
-              onChange={(e) => setDifficulty(e.target.value)}
-              className="w-full max-w-xs rounded-lg border  bg-slate-800 text-white px-4  focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition shadow focus:shadow-lg"
+          <div className="flex gap-4 justify-center items-center">
+            <Select
+              onValueChange={setDifficulty}
+              value={difficulty}
               defaultValue=""
             >
-              <option
-                value=""
-                disabled
-                className="bg-slate-700 text-slate-400 "
-              >
-                Select Difficulty
-              </option>
-              <option value="easy" className="text-green-400">
-                Easy
-              </option>
-              <option value="medium" className="text-yellow-400">
-                Medium
-              </option>
-              <option value="hard" className="text-red-400">
-                Hard
-              </option>
-            </select>
-
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select Difficulty" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="easy" className="text-green-400">
+                  Easy
+                </SelectItem>
+                <SelectItem value="medium" className="text-yellow-400">
+                  Medium
+                </SelectItem>
+                <SelectItem value="hard" className="text-red-400">
+                  Hard
+                </SelectItem>
+              </SelectContent>
+            </Select>
             <button
               onClick={handleGenerate}
               disabled={questions.length != 0}
-              className="relative inline-flex items-center justify-center h-12 w-64 rounded-full border-2 border-teal-500 bg-slate-900 text-white font-semibold tracking-wide transition-all duration-500 hover:border-emerald-400 hover:text-emerald-300 hover:scale-105 group overflow-hidden"
+              className="relative  inline-flex items-center justify-center h-12 w-32 rounded-full border-2 border-teal-500 bg-slate-900 text-white font-semibold tracking-wide transition-all duration-500 hover:border-emerald-400 hover:text-emerald-300 hover:scale-105 group overflow-hidden"
             >
               <span className="relative z-10">Generate</span>
 
@@ -157,9 +158,7 @@ const Home = () => {
                   Your quiz has been successfully generated. Click below to
                   begin!
                 </p>
-                <InteractiveHoverButton
-                  onClick={() => router.push("/quiz")}
-                >
+                <InteractiveHoverButton onClick={() => router.push("/quiz")}>
                   Start Quiz
                 </InteractiveHoverButton>
               </CardContent>
