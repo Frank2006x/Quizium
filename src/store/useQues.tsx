@@ -14,6 +14,10 @@ type quesType = {
 export const useQues = create((set) => ({
   questions: [],
   isGenerating: false,
+  score: 0,
+  setScore: (s: number) => {
+    set({ score: s });
+  },
   getQuestions: async (topic: string, difficulty: string) => {
     set({ isGenerating: true });
     const res = await fetch("/api/generate", {

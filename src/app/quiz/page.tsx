@@ -5,12 +5,21 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useQues } from "@/store/useQues";
 import { RadioGroup } from "@radix-ui/react-dropdown-menu";
 import { BrainCircuit } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+enum OptionsType {
+  A = "A",
+  B = "B",
+  C = "C",
+  D = "D",
+}
+
 const Page = () => {
-  let { questions } = useQues();
+  let { questions, setScore } = useQues();
   const [quesNo, setQuesNo] = useState(0);
-  const q = questions[quesNo];
+  const [ans, setAns] = useState<Record<number, OptionsType>>({});
+  const router = useRouter();
 
   if (questions.length == 0) {
     questions = [
@@ -78,8 +87,21 @@ const Page = () => {
     ];
   }
 
-  console.log(questions);
-  console.log(quesNo);
+  const handleSelection = (letter: OptionsType, quesNo: number) => {
+    setAns((prev) => ({ ...prev, [quesNo]: letter }));
+  };
+
+  const computeResult = () => {
+    let s = 0;
+    questions.forEach((q, index) => {
+      if (ans[index] === q.answer[0]) {
+        s += 1;
+      }
+    });
+    setScore(s);
+    router.push("/quiz/result");
+  };
+
   return (
     <>
       <div className="flex justify-between">
@@ -93,25 +115,26 @@ const Page = () => {
           </div>
         </div>
         <button
+          onClick={computeResult}
           className="
-    m-6
-    w-32
-    rounded-full
-    px-4
-    py-3
-    bg-emerald-600
-    text-white
-    font-semibold
-    shadow-md
-    hover:bg-black
-    hover:text-emerald-400
-    hover:scale-105
-    hover:shadow-emerald-500/50
-    border-2
-    hover:border-emerald-600
-    transition-all
-    duration-300
-  "
+            m-6
+            w-32
+            rounded-full
+            px-4
+            py-3
+            bg-emerald-600
+            text-white
+            font-semibold
+            shadow-md
+            hover:bg-black
+            hover:text-emerald-400
+            hover:scale-105
+            hover:shadow-emerald-500/50
+            border-2
+            hover:border-emerald-600
+            transition-all
+            duration-300
+          "
         >
           Submit
         </button>
@@ -133,8 +156,8 @@ const Page = () => {
             {/* Card */}
             <Card className="shadow-2xl rounded-2xl p-8 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 border border-slate-300 dark:border-slate-700 transition-all duration-500">
               <CardHeader>
-                <CardTitle className="text-2xl text-center mb-4 font-semibold text-slate-800 dark:text-slate-100">
-                  Question {quesNo + 1}
+                <CardTitle className="text-xl text-left mb-3 font-semibold text-slate-800 dark:text-slate-100">
+                  Question {quesNo + 1} of {questions.length}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -142,10 +165,15 @@ const Page = () => {
                   {questions[quesNo]?.question}
                 </p>
                 <div className="flex flex-col gap-4 w-full mt-4">
-                  {["A", "B", "C", "D"].map((letter) => (
+                  {Object.values(OptionsType).map((letter) => (
                     <div
                       key={letter}
-                      className="flex items-center gap-3 border rounded-xl px-4 py-3 hover:bg-emerald-200 dark:hover:bg-emerald-700 cursor-pointer transition-all"
+                      onClick={() => handleSelection(letter, quesNo)}
+                      className={`flex items-center gap-3 ${
+                        ans[quesNo] === letter
+                          ? "bg-emerald-300 dark:bg-emerald-600 border-emerald-700"
+                          : ""
+                      } border rounded-xl px-4 py-3 hover:bg-emerald-200 dark:hover:bg-emerald-700 cursor-pointer transition-all`}
                     >
                       <span className="font-bold text-slate-600 dark:text-slate-300">
                         {letter}.
