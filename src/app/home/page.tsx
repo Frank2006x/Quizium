@@ -89,17 +89,22 @@ const Home = () => {
             {randomSlogan.current}
           </TextAnimate>
         )}
-        <div className="relative bg-secondary flex flex-col sm:flex-row gap-4  rounded-3xl p-7 min-w-75 max-w-200 overflow-hidden ">
+        <div
+          className={`relative bg-secondary flex flex-col sm:flex-row gap-4  rounded-3xl p-7 min-w-75 max-w-200 overflow-hidden ${
+            questions.length != 0 ? "hidden" : "block"
+          }`}
+        >
           <BorderBeam
             className="bg-gradient-to-r from-transparent  via-emerald-500  to-transparent"
             size={200}
           />
-
           <input
             type="text"
             placeholder="Enter your Topic"
             onChange={(e) => setTopic(e.target.value)}
-            className="w-full rounded-lg  focus:border-0 ring-0 focus:outline-none focus:ring-0 focus:border-none border-none px-4 py-3 text-white   transition"
+            className={`w-full rounded-lg  focus:border-0 ring-0 focus:outline-none focus:ring-0 focus:border-none border-none px-4 py-3 text-white   transition ${
+              questions.length != 0 ? "hidden" : "block"
+            }`}
           />
 
           <div className="flex gap-4 justify-center items-center">

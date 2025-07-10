@@ -20,6 +20,7 @@ const Page = () => {
   const [quesNo, setQuesNo] = useState(0);
   const [ans, setAns] = useState<Record<number, OptionsType>>({});
   const router = useRouter();
+  useEffect(() => {}, []);
 
   if (questions.length == 0) {
     questions = [
@@ -107,7 +108,12 @@ const Page = () => {
       <div className="flex justify-between">
         <div className="flex m-6 items-center  gap-4">
           <BrainCircuit size={40} className="" />
-          <h1 className="text-3xl font-bold font-josefin-sans ">Quizium</h1>
+          <h1
+            className="text-3xl font-bold font-josefin-sans "
+            onClick={() => router.back()}
+          >
+            Quizium
+          </h1>
         </div>
         <div className="flex justify-center items-center my-4">
           <div className="bg-slate-800 text-orange-200 px-6 py-3 rounded-2xl border-2 border-orange-400 text-xl font-mono shadow-lg">
