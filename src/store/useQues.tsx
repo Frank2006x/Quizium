@@ -18,6 +18,10 @@ export const useQues = create((set) => ({
   setScore: (s: number) => {
     set({ score: s });
   },
+  time: 0,
+  setTime: (t: number) => {
+    set({ time: t });
+  },
   getQuestions: async (topic: string, difficulty: string) => {
     set({ isGenerating: true });
     const res = await fetch("/api/generate", {
@@ -27,9 +31,12 @@ export const useQues = create((set) => ({
       },
       body: JSON.stringify({ topic, difficulty }),
     });
-    const result = await res.json();
-    console.log(result);
-
-    set({ questions: result.data, isGenerating: false });
+    try {
+      const result = await res.json();
+      console.log(result);
+      set({ questions: result.data, isGenerating: false });
+    } catch {
+      throw new Error("json parse error");
+    }
   },
 }));
