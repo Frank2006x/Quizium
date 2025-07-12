@@ -1,15 +1,15 @@
 import { create } from "zustand";
+import axios from "axios";
 
-type quesType = {
+type OptionKey = "A" | "B" | "C" | "D";
+
+type QuestionType = {
   question: string;
-  options: {
-    A: string;
-    B: string;
-    C: string;
-    D: string;
-  };
-  answer: string[];
+  options: Record<OptionKey, string>;
+  answer: [OptionKey, string]; // [correctOption, explanation]
 };
+
+export type QuizData = QuestionType[];
 
 export const useQues = create((set) => ({
   questions: [],
@@ -24,17 +24,14 @@ export const useQues = create((set) => ({
   },
   getQuestions: async (topic: string, difficulty: string) => {
     set({ isGenerating: true });
-    const res = await fetch("/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ topic, difficulty }),
+    const { data: res } = await axios.post("/api/generate", {
+      topic,
+      difficulty,
     });
+    console.log(res);
+    
     try {
-      const result = await res.json();
-      console.log(result);
-      set({ questions: result.data, isGenerating: false });
+      set({ questions: res.data, isGenerating: false });
     } catch {
       throw new Error("json parse error");
     }

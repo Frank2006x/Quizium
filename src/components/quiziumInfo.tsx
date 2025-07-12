@@ -14,7 +14,7 @@ const quiziumInfo = () => {
                 animation="fadeIn"
                 by="line"
                 as="p"
-                className="font-josefin-sans text-xl w-2xl text-center py-20 my-auto h-full"
+                className="font-josefin-sans text-sm md:text-xl  text-center py-20 my-auto h-full "
               >
                 {`Quizium isn't just another quiz app \n\n it's your intelligent challenger. Powered by AI \n\n it adapts to your level, sharpens your thinking, \n\n and pushes you to outsmart every question. \n\n  Because it's not just about answering... \n\n it's about conquering.`}
               </TextAnimate>

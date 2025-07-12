@@ -1,9 +1,34 @@
 import { GoogleGenAI } from "@google/genai";
 import { jsonrepair } from "jsonrepair";
-import dotenv from "dotenv";
-dotenv.config();
-export async function POST(req) {
+import quizModal from "@/models/quiz.modal";
+import { NextRequest } from "next/server";
+import SessionModel from "@/models/session.model";
+import connectDB from "@/lib/mongodb";
+// import client from "@/lib/db";
+
+// let db;
+// async function connectDB() {
+//   if (db) return db; // already connected
+//   try {
+//     await client.connect();
+//     db = client.db("quizium-cluster");
+//     console.log("connected to db");
+//     return db;
+//   } catch (err) {
+//     console.error("Failed to connect to DB", err);
+//     return undefined;
+//   }
+// }
+
+export async function POST(req: NextRequest) {
+  connectDB();
   const body = await req.json();
+  const token =
+    req.cookies.get("authjs.session-token")?.value ||
+    req.cookies.get("__Secure-authjs.session-token")?.value;
+
+  const { userId } = await SessionModel.findOne({ sessionToken: token });
+  console.log(userId);
 
   const topic = body.topic;
   const difficulty = body.difficulty;
@@ -11,21 +36,21 @@ export async function POST(req) {
   const response = await ai.models.generateContent({
     model: "gemini-2.0-flash",
     contents: `Generate 5 multiple-choice questions on the topic "${topic}" in difficuly "${difficulty}". Return the response as a JSON object in this exact format:
-
-{
-  "success": true,
-  "data": [
+    
     {
-      "question": "Question here",
-      "options": {
-        "A": "Option A",
+      "success": true,
+      "data": [
+        {
+          "question": "Question here",
+          "options": {
+            "A": "Option A",
         "B": "Option B",
         "C": "Option C",
         "D": "Option D"
-      },
-      "answer": ["CorrectOptionKey","explanation to the answer"]
-    },
-    ...
+        },
+        "answer": ["CorrectOptionKey","explanation to the answer"]
+        },
+        ...
   ]
 }
 
@@ -51,6 +76,12 @@ export async function POST(req) {
     }
     const fixed = jsonrepair(response.text);
     parsed = JSON.parse(fixed);
+    await quizModal.insertOne({
+      userId,
+      questions: parsed.data,
+      topic,
+      difficulty,
+    });
   } catch (err: unknown) {
     console.error("❌ Invalid JSON from AI:", err.message);
     return Response.json({
