@@ -1,24 +1,11 @@
 "use client";
 
 import * as React from "react";
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  BrainCircuit,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
+import { BrainCircuit, SearchIcon, SquarePen } from "lucide-react";
 import { Loader } from "@/components/ui/Loader";
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -28,111 +15,23 @@ import {
 } from "@/components/ui/sidebar";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import useTopic from "@/store/useTopic";
+import Link from "next/link";
+import TopicLoader from "./TopicLoader";
 
 // This is sample data.
 const data = {
   navMain: [
     {
-      title: "Playground",
+      title: "New Quiz",
       url: "#",
-      icon: SquareTerminal,
+      icon: SquarePen,
       isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
     },
     {
-      title: "Models",
+      title: "Search Quiz",
       url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      icon: SearchIcon,
     },
   ],
 };
@@ -140,20 +39,28 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session, status } = useSession();
   const user = session?.user;
+  const { topic, setTopic, isLoading } = useTopic();
+  React.useEffect(() => {
+    setTopic();
+  }, [setTopic]);
+
+  console.log(topic);
   if (status === "loading") return <Loader />;
   if (!session) return redirect("/");
   console.log(session);
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <BrainCircuit size={35} />
+        <Link href="/">
+          <BrainCircuit size={35} />
+        </Link>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="mt-7">
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        {isLoading ? <TopicLoader  /> : <NavProjects topic={topic} />}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser user={user!} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

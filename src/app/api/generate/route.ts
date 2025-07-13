@@ -4,21 +4,7 @@ import quizModal from "@/models/quiz.modal";
 import { NextRequest } from "next/server";
 import SessionModel from "@/models/session.model";
 import connectDB from "@/lib/mongodb";
-// import client from "@/lib/db";
 
-// let db;
-// async function connectDB() {
-//   if (db) return db; // already connected
-//   try {
-//     await client.connect();
-//     db = client.db("quizium-cluster");
-//     console.log("connected to db");
-//     return db;
-//   } catch (err) {
-//     console.error("Failed to connect to DB", err);
-//     return undefined;
-//   }
-// }
 
 export async function POST(req: NextRequest) {
   connectDB();
