@@ -1,7 +1,5 @@
 "use client";
 
-import { type LucideIcon } from "lucide-react";
-
 import { Collapsible } from "@/components/ui/collapsible";
 import {
   SidebarGroup,
@@ -9,6 +7,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useClear } from "@/store/useClear";
+import { LucideIcon } from "lucide-react";
+
+
 
 export function NavMain({
   items,
@@ -24,6 +26,7 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const { clearInput } = useClear();
   return (
     <SidebarGroup>
       {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
@@ -36,7 +39,15 @@ export function NavMain({
             className="group/collapsible"
           >
             <SidebarMenuItem>
-              <SidebarMenuButton tooltip={item.title}>
+              <SidebarMenuButton
+                tooltip={item.title}
+                onClick={() => {
+                  console.log("hello", item.url);
+                  if (item.url == "/home") {
+                    clearInput();
+                  }
+                }}
+              >
                 {item.icon && <item.icon />}
                 <span>{item.title}</span>
               </SidebarMenuButton>

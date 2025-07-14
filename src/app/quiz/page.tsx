@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { useClear } from "@/store/useClear";
 import { QuizData, useQues } from "@/store/useQues";
 import { BrainCircuit } from "lucide-react";
 import { useRouter } from "next/navigation";

@@ -18,6 +18,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { useClear } from "@/store/useClear";
 
 const loaderTexts = [
   "Summoning brain cells...",
@@ -56,6 +57,8 @@ const Home = () => {
       ];
   }, []);
   const { questions, getQuestions, isGenerating } = useQues();
+  const { inputVal, setInputValue } = useClear();
+
   const [topic, setTopic] = useState("");
   const [difficulty, setDifficulty] = useState("medium");
   const [loaderText, setLoaderText] = useState("");
@@ -70,7 +73,7 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
   const handleGenerate = async () => {
-    await getQuestions(topic, difficulty);
+    await getQuestions(inputVal, difficulty);
     console.log(questions);
   };
 
@@ -84,7 +87,7 @@ const Home = () => {
           <TextAnimate
             animation="blurIn"
             as="h1"
-            className="text-2xl mb-4 font-josefin-sans"
+            className="text-sm sm:text-lg md:text-xl lg:text-2xl mb-4 font-josefin-sans"
           >
             {randomSlogan.current}
           </TextAnimate>
@@ -100,8 +103,9 @@ const Home = () => {
           />
           <input
             type="text"
+            value={inputVal}
             placeholder="Enter your Topic"
-            onChange={(e) => setTopic(e.target.value)}
+            onChange={(e) => setInputValue(e.target.value)}
             className={`w-full rounded-lg  focus:border-0 ring-0 focus:outline-none focus:ring-0 focus:border-none border-none px-4 py-3 text-white   transition ${
               questions.length != 0 ? "hidden" : "block"
             }`}

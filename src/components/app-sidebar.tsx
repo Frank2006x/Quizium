@@ -19,12 +19,11 @@ import useTopic from "@/store/useTopic";
 import Link from "next/link";
 import TopicLoader from "./TopicLoader";
 
-// This is sample data.
 const data = {
   navMain: [
     {
       title: "New Quiz",
-      url: "#",
+      url: "/home",
       icon: SquarePen,
       isActive: true,
     },
@@ -57,7 +56,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent className="mt-7">
         <NavMain items={data.navMain} />
-        {isLoading ? <TopicLoader  /> : <NavProjects topic={topic} />}
+        {isLoading ? <TopicLoader /> : <NavProjects topic={topic} />}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user!} />
