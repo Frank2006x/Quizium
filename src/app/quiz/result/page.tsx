@@ -108,9 +108,12 @@ const ResultPage = () => {
           >
             Retake Quiz
           </Button>
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+            <Button
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+            onClick={() => redirect("/quiz/answer")}
+            >
             View Answers
-          </Button>
+            </Button>
         </div>
       </div>
     </div>

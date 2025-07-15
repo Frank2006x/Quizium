@@ -8,6 +8,9 @@ type QuestionType = {
   options: Record<OptionKey, string>;
   answer: [OptionKey, string]; // [correctOption, explanation]
 };
+type AnsType = {
+  [number: number]: OptionKey;
+};
 
 export type QuizData = QuestionType[];
 
@@ -15,6 +18,10 @@ export const useQues = create((set) => ({
   questions: [],
   isGenerating: false,
   score: 0,
+  ans: {},
+  setAnswer: (a: AnsType) => {
+    set({ ans: a });
+  },
   setScore: (s: number) => {
     set({ score: s });
   },
@@ -29,7 +36,7 @@ export const useQues = create((set) => ({
       difficulty,
     });
     console.log(res);
-    
+
     try {
       set({ questions: res.data, isGenerating: false });
     } catch {

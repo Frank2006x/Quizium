@@ -18,10 +18,12 @@ type UseQuesReturnType = {
   questions: QuizData;
   setScore: (score: number) => void;
   setTime: (time: number) => void;
+  setAnswer: (ans: { [number: number]: OptionsType }) => void;
 };
 
 const Page = () => {
-  const { questions, setScore, setTime } = useQues() as UseQuesReturnType;
+  const { questions, setScore, setTime, setAnswer } =
+    useQues() as UseQuesReturnType;
   const [quesNo, setQuesNo] = useState(0);
   const [ans, setAns] = useState<Record<number, OptionsType>>({});
   const router = useRouter();
@@ -46,9 +48,13 @@ const Page = () => {
 
   const handleSelection = (letter: OptionsType, quesNo: number) => {
     setAns((prev) => ({ ...prev, [quesNo]: letter }));
+    console.log(ans);
   };
 
   const computeResult = () => {
+    setTimeout(() => {
+      setAnswer(ans);
+    }, 2500);
     let s = 0;
     questions.forEach((q, i) => {
       if (ans[i] === q.answer[0]) s++;
