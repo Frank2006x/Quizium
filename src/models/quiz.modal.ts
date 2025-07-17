@@ -18,14 +18,6 @@ const questionSchema = new Schema<IQuestions>({
   },
   answer: {
     type: [String],
-    validate: {
-      validator: (arr: string[]) =>
-        Array.isArray(arr) &&
-        arr.length === 2 &&
-        ["A", "B", "C", "D"].includes(arr[0]) &&
-        typeof arr[1] === "string",
-      message: "Answer must be [OptionKey, string]",
-    },
     required: true,
   },
 });
