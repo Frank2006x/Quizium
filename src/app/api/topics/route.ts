@@ -10,8 +10,7 @@ export async function GET(req: NextRequest) {
     req.cookies.get("__Secure-authjs.session-token")?.value;
   const { userId } = await SessionModel.findOne({ sessionToken: token });
 
-  const topic = await quizModal.find({ userId });
-  
+  const topic = (await quizModal.find({ userId })).reverse();
 
   return NextResponse.json(topic);
 }
