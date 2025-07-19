@@ -29,7 +29,7 @@ function formatTime(seconds: number) {
 const COLORS = ["#4CAF50", "#F44336", "#607D8B"];
 
 export default function QuizReview() {
-  const { questions, ans, score, time } = useQues();
+  const { questions, ans, time } = useQues();
   const router = useRouter();
   const [expanded, setExpanded] = useState<number | null>(null);
 

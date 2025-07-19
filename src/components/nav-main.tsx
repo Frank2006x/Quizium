@@ -8,9 +8,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useClear } from "@/store/useClear";
+import { useQues } from "@/store/useQues";
 import { LucideIcon } from "lucide-react";
-
-
 
 export function NavMain({
   items,
@@ -27,6 +26,7 @@ export function NavMain({
   }[];
 }) {
   const { clearInput } = useClear();
+  const { clearQues } = useQues();
   return (
     <SidebarGroup>
       {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
@@ -45,6 +45,7 @@ export function NavMain({
                   console.log("hello", item.url);
                   if (item.url == "/home") {
                     clearInput();
+                    clearQues();
                   }
                 }}
               >

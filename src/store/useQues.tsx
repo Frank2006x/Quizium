@@ -29,6 +29,9 @@ export const useQues = create((set) => ({
   setTime: (t: number) => {
     set({ time: t });
   },
+  clearQues: () => {
+    set({ questions: [] });
+  },
   getQuestions: async (topic: string, difficulty: string) => {
     set({ isGenerating: true });
     const { data: res } = await axios.post("/api/generate", {
