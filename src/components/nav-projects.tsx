@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  Folder,
-  Forward,
-  MoreHorizontal,
-  Trash2,
-} from "lucide-react";
-
+import { Folder, Forward, MoreHorizontal, Trash2 } from "lucide-react";
+import Link from "next/link"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,10 +18,11 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { TopicType } from "@/store/useTopic";
 
-export function NavProjects({ topic }: { topic: string[] }) {
+export function NavProjects({ topic }: { topic: TopicType[] }) {
   const { isMobile } = useSidebar();
-  console.log("topic-----", topic);
+  
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -35,9 +31,9 @@ export function NavProjects({ topic }: { topic: string[] }) {
         {topic.map((item, index) => (
           <SidebarMenuItem key={index}>
             <SidebarMenuButton asChild>
-              <a href="#">
-                <span>{item}</span>
-              </a>
+              <Link href={`/home/view?id=${item.id}`}>
+                <span>{item.topic}</span>
+              </Link>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

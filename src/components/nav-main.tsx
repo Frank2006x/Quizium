@@ -10,6 +10,7 @@ import {
 import { useClear } from "@/store/useClear";
 import { useQues } from "@/store/useQues";
 import { LucideIcon } from "lucide-react";
+import { redirect } from "next/navigation";
 
 export function NavMain({
   items,
@@ -46,6 +47,7 @@ export function NavMain({
                   if (item.url == "/home") {
                     clearInput();
                     clearQues();
+                    redirect("/home");
                   }
                 }}
               >

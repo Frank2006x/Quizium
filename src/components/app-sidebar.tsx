@@ -43,10 +43,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     setTopic();
   }, [setTopic]);
 
-  console.log(topic);
   if (status === "loading") return <Loader />;
   if (!session) return redirect("/");
-  console.log(session);
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

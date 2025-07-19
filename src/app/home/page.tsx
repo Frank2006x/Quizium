@@ -79,9 +79,6 @@ const Home = () => {
 
   return (
     <>
-      <div className="fixed right-2 top-2">
-        <ModeToggle />
-      </div>
       <div className="h-100 flex  flex-col  items-center  m-auto ">
         {randomSlogan && (
           <TextAnimate
@@ -106,7 +103,7 @@ const Home = () => {
             value={inputVal}
             placeholder="Enter your Topic"
             onChange={(e) => setInputValue(e.target.value)}
-            className={`w-full rounded-lg  focus:border-0 ring-0 focus:outline-none focus:ring-0 focus:border-none border-none px-4 py-3 text-white   transition ${
+            className={`w-full rounded-lg  focus:border-0 ring-0 focus:outline-none focus:ring-0 focus:border-none border-none px-4 py-3 dark:text-white text-black   transition ${
               questions.length != 0 ? "hidden" : "block"
             }`}
           />

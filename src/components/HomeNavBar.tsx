@@ -80,7 +80,7 @@ export function HomeNavBar() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <NavbarButton className="p-0 cursor-pointer">
+            <NavbarButton className="p-0  cursor-pointer">
               <ModeToggle  />
             </NavbarButton>
           </div>

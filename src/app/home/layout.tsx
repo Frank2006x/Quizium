@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { BrainCircuit } from "lucide-react";
+import { ModeToggle } from "@/components/ThemeToggler";
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
   const { status } = useSession();
@@ -31,6 +32,9 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
                   Quizium
                 </h1>
               </div>
+            </div>
+            <div className="fixed right-4 top-4">
+              <ModeToggle />
             </div>
           </header>
           <main className="flex flex-1">{children}</main>
