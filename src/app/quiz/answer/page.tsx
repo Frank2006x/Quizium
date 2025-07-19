@@ -2,14 +2,7 @@
 
 import { useState } from "react";
 import { useQues } from "@/store/useQues";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -18,7 +11,10 @@ import {
   CheckCircle,
   SkipForward,
   XCircle,
+  ArrowLeft,
+  BrainCircuit,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type OptionKey = "A" | "B" | "C" | "D";
 
@@ -31,89 +27,12 @@ function formatTime(seconds: number) {
 }
 
 const COLORS = ["#4CAF50", "#F44336", "#607D8B"];
-const TOPIC_COLORS = ["#3F51B5", "#009688", "#FF5722", "#9C27B0", "#795548"];
 
 export default function QuizReview() {
   const { questions, ans, score, time } = useQues();
-  // questions = [
-  //   {
-  //     question:
-  //       "Which of the following is NOT a common characteristic associated with Madurai's Meenakshi Amman Temple?",
-  //     options: {
-  //       A: "Gopurams adorned with thousands of sculptures",
-  //       B: "A sacred tank known as the 'Pottramarai Kulam'",
-  //       C: "A predominantly Dravidian architectural style",
-  //       D: "Extensive use of marble in its construction",
-  //     },
-  //     answer: [
-  //       "D",
-  //       "The Meenakshi Amman Temple primarily uses granite and other traditional materials, not marble.",
-  //     ],
-  //   },
-  //   {
-  //     question:
-  //       "Madurai is historically significant as the capital of which ancient dynasty?",
-  //     options: {
-  //       A: "The Cholas",
-  //       B: "The Pandyas",
-  //       C: "The Cheras",
-  //       D: "The Pallavas",
-  //     },
-  //     answer: [
-  //       "B",
-  //       "Madurai served as the capital of the Pandya kingdom for a significant period.",
-  //     ],
-  //   },
-  //   {
-  //     question:
-  //       "The 'Chithirai Festival' celebrated in Madurai is primarily dedicated to which deity/deities?",
-  //     options: {
-  //       A: "Lord Vishnu",
-  //       B: "Lord Shiva and Goddess Parvati (Meenakshi)",
-  //       C: "Lord Brahma",
-  //       D: "Lord Murugan",
-  //     },
-  //     answer: [
-  //       "B",
-  //       "The Chithirai Festival celebrates the celestial wedding of Meenakshi (Parvati) and Sundareswarar (Shiva).",
-  //     ],
-  //   },
-  //   {
-  //     question: "Which river flows through the city of Madurai?",
-  //     options: {
-  //       A: "Cauvery River",
-  //       B: "Vaigai River",
-  //       C: "Thamirabarani River",
-  //       D: "Krishna River",
-  //     },
-  //     answer: [
-  //       "B",
-  //       "The Vaigai River is the main river that flows through Madurai.",
-  //     ],
-  //   },
-  //   {
-  //     question:
-  //       "What is the significance of the 'thousand-pillared hall' (Ayirakkal Mandapam) within the Meenakshi Amman Temple?",
-  //     options: {
-  //       A: "It houses the main deity of the temple.",
-  //       B: "It is a museum showcasing the temple's history and art.",
-  //       C: "It is used for conducting religious ceremonies.",
-  //       D: "It serves as the main entrance to the temple.",
-  //     },
-  //     answer: [
-  //       "B",
-  //       "The Ayirakkal Mandapam functions as a museum displaying sculptures, paintings, and artifacts related to the temple's history.",
-  //     ],
-  //   },
-  // ];
+  const router = useRouter();
   const [expanded, setExpanded] = useState<number | null>(null);
-  // ans = {
-  //   "0": "B",
-  //   "1": "D",
-  //   "2": "B",
-  //   "3": "D",
-  //   "4": "A",
-  // };
+
   const totalQuestions = questions.length;
 
   // Convert ans object to array for easier processing
@@ -150,18 +69,28 @@ export default function QuizReview() {
   ];
 
   // Extract unique topics from questions
-  const topics = Array.from(new Set(questions.map((q) => q.topic)));
+  // const topics = Array.from(new Set(questions.map((q) => q.topic)));
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       {/* Header */}
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
-          Quiz Review
-        </h1>
-        <p className="text-gray-600 dark:text-gray-300">
-          Detailed breakdown of your performance
-        </p>
+      <div></div>
+      <div className="flex justify-between text-center space-y-2">
+        <div
+          className="bg-gray-900 border-gray-700  rounded-full h-12 w-12 flex justify-center items-center"
+          onClick={() => router.push("/quiz/result")}
+        >
+          <ArrowLeft />
+        </div>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+            Quiz Review
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300">
+            Detailed breakdown of your performance
+          </p>
+        </div>
+        <BrainCircuit size={35} />
       </div>
 
       {/* Stats and Pie Chart */}
@@ -308,7 +237,7 @@ export default function QuizReview() {
       </div>
 
       {/* Topics Legend */}
-      {topics.length > 0 && (
+      {/* {topics.length > 0 && (
         <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
           <h3 className="font-medium text-gray-800 dark:text-white mb-3">
             Topics Covered:
@@ -329,7 +258,7 @@ export default function QuizReview() {
             ))}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Questions Section */}
       <div className="space-y-6">
@@ -342,8 +271,6 @@ export default function QuizReview() {
           const userSelected = ans[index.toString()];
           const isCorrect = userSelected === correct;
           const isSkipped = !userSelected;
-          const topicColor =
-            TOPIC_COLORS[topics.indexOf(item.topic) % TOPIC_COLORS.length];
 
           return (
             <div
@@ -369,14 +296,6 @@ export default function QuizReview() {
                   >
                     {index + 1}
                   </div>
-                  {item.topic && (
-                    <span
-                      className="text-xs px-2 py-1 rounded-full text-white"
-                      style={{ backgroundColor: topicColor }}
-                    >
-                      {item.topic}
-                    </span>
-                  )}
                 </div>
                 <div className="flex-grow">
                   <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-4">
