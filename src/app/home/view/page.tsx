@@ -4,6 +4,8 @@ import axios from "axios";
 import Loader from "@/components/ui/BonceLoader";
 import { redirect, useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
+import Button from "@/components/ui/greenButton";
+import { useQues } from "@/store/useQues";
 type Question = {
   _id: string;
   topic: string;
@@ -24,6 +26,7 @@ const Page = () => {
   const [showExplanation, setShowExplanation] = useState<
     Record<string, boolean>
   >({});
+  const { setQuestions } = useQues();
 
   useEffect(() => {
     setTimeout(() => {
@@ -42,6 +45,10 @@ const Page = () => {
     }
     fetch();
   }, [id]);
+  const retakeQuiz = () => {
+    setQuestions(questionRef.current?.questions);
+    redirect("/quiz");
+  };
 
   if (isLoading)
     return (
@@ -68,11 +75,16 @@ const Page = () => {
         <h1 className="text-3xl font-bold mb-4 capitalize text-indigo-600 dark:text-indigo-400">
           {questionRef.current.topic}
         </h1>
-        <p className="mb-8 text-gray-600 dark:text-gray-300">
-          Difficulty: {questionRef.current.difficulty}
-          <br />
-          Created at: {questionRef.current.createdAt.slice(0,10)}
-        </p>
+        <div className="mb-8 text-gray-600 dark:text-gray-300 flex justify-between">
+          <div>
+            <h1>Difficulty: {questionRef.current.difficulty}</h1>
+            <br />
+            <h1>Created at: {questionRef.current.createdAt.slice(0, 10)}</h1>
+          </div>
+          <div onClick={() => retakeQuiz()}>
+            <Button />
+          </div>
+        </div>
 
         {questionRef.current.questions.map((q, index) => (
           <div

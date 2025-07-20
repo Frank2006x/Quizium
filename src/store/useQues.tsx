@@ -19,6 +19,9 @@ export const useQues = create((set) => ({
   isGenerating: false,
   score: 0,
   ans: {},
+  setQuestions: (q: QuizData) => {
+    set({ questions: q });
+  },
   setAnswer: (a: AnsType) => {
     set({ ans: a });
   },

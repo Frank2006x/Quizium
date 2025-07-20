@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQues } from "@/store/useQues";
 import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
 import { NumberTicker } from "@/components/magicui/number-ticker";
@@ -67,9 +67,6 @@ export default function QuizReview() {
     { name: "Incorrect", value: incorrect },
     { name: "Skipped", value: skipped },
   ];
-
-  // Extract unique topics from questions
-  // const topics = Array.from(new Set(questions.map((q) => q.topic)));
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
