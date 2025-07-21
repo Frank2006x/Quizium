@@ -108,7 +108,7 @@ const Home = () => {
             }`}
           />
 
-          <div className="flex gap-4 justify-center items-center">
+          <div className="flex gap-4 flex-col md:flex-row justify-center items-center">
             <Select
               onValueChange={setDifficulty}
               value={difficulty}

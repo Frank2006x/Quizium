@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ShineBorder } from "@/components/magicui/shine-border";
 
 const ResultPage = () => {
-  const { score, questions, time } = useQues();
+  const { score, questions, time, clearQues } = useQues();
   console.log(time);
   const total = questions.length;
   const accuracy =
@@ -102,18 +102,27 @@ const ResultPage = () => {
 
         <div className="flex justify-center gap-4 pt-2">
           <Button
+            className="bg-emerald-600 hover:bg-emerald-700 text-white"
+            onClick={() => {
+              clearQues();
+              redirect("/home");
+            }}
+          >
+            Go Home
+          </Button>
+          <Button
             variant="outline"
             className="border-gray-700 text-white hover:bg-zinc-800"
             onClick={() => redirect("/quiz")}
           >
             Retake Quiz
           </Button>
-            <Button
+          <Button
             className="bg-blue-600 hover:bg-blue-700 text-white"
             onClick={() => redirect("/quiz/answer")}
-            >
+          >
             View Answers
-            </Button>
+          </Button>
         </div>
       </div>
     </div>
