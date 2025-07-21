@@ -50,12 +50,6 @@ const Home = () => {
     slogan.replace("[Username]", session!.user!.name!)
   );
   const randomSlogan = useRef("");
-  useEffect(() => {
-    randomSlogan.current =
-      personalizedSlogans[
-        Math.floor(Math.random() * personalizedSlogans.length)
-      ];
-  }, []);
   const { questions, getQuestions, isGenerating } = useQues();
   const { inputVal, setInputValue } = useClear();
 
@@ -63,6 +57,13 @@ const Home = () => {
   const [difficulty, setDifficulty] = useState("medium");
   const [loaderText, setLoaderText] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    randomSlogan.current =
+      personalizedSlogans[
+        Math.floor(Math.random() * personalizedSlogans.length)
+      ];
+  }, []);
   useEffect(() => {
     const interval = setInterval(() => {
       const random =
@@ -84,13 +85,13 @@ const Home = () => {
           <TextAnimate
             animation="blurIn"
             as="h1"
-            className="text-sm sm:text-lg md:text-xl lg:text-2xl mb-4 font-josefin-sans"
+            className="text-sm sm:text-lg md:text-xl lg:text-2xl mb-4 font-josefin-sans text-center"
           >
             {randomSlogan.current}
           </TextAnimate>
         )}
         <div
-          className={`relative bg-secondary flex flex-col sm:flex-row gap-4  rounded-3xl p-7 min-w-75 max-w-200 overflow-hidden ${
+          className={`relative bg-secondary flex flex-col sm:flex-row gap-4  rounded-3xl p-2 md:p-7  md:min-w-75  overflow-hidden ${
             questions.length != 0 ? "hidden" : "block"
           }`}
         >
@@ -103,18 +104,18 @@ const Home = () => {
             value={inputVal}
             placeholder="Enter your Topic"
             onChange={(e) => setInputValue(e.target.value)}
-            className={`w-full rounded-lg  focus:border-0 ring-0 focus:outline-none focus:ring-0 focus:border-none border-none px-4 py-3 dark:text-white text-black   transition ${
+            className={` box-content rounded-lg  focus:border-0 ring-0 focus:outline-none focus:ring-0 max-w-full focus:border-none border-none px-4 py-3 dark:text-white text-black   transition ${
               questions.length != 0 ? "hidden" : "block"
             }`}
           />
 
-          <div className="flex gap-4 flex-col md:flex-row justify-center items-center">
+          <div className="flex md:gap-4 flex-row gap-2 md:justify-center items-center">
             <Select
               onValueChange={setDifficulty}
               value={difficulty}
               defaultValue=""
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="md-w-[180px]">
                 <SelectValue placeholder="Select Difficulty" />
               </SelectTrigger>
               <SelectContent>
@@ -132,9 +133,9 @@ const Home = () => {
             <button
               onClick={handleGenerate}
               disabled={questions.length != 0}
-              className="relative  inline-flex items-center justify-center h-12 w-32 rounded-full border-2 border-teal-500 bg-slate-900 text-white font-semibold tracking-wide transition-all duration-500 hover:border-emerald-400 hover:text-emerald-300 hover:scale-105 group overflow-hidden"
+              className="relative  inline-flex items-center text-sm md:text-md justify-center h-12 w-24 md:w-32 rounded-full border-2 border-teal-500 bg-slate-900 text-white font-semibold tracking-wide transition-all duration-500 hover:border-emerald-400 hover:text-emerald-300 hover:scale-105 group overflow-hidden"
             >
-              <span className="relative z-10">Generate</span>
+              <span className="relative z-5">Generate</span>
 
               <span className="absolute w-10 h-10 bg-indigo-500 rounded-full blur-lg right-3 top-2 z-0 transition-all duration-500 group-hover:right-12 group-hover:bottom-[-12px]" />
               <span className="absolute w-16 h-16 bg-teal-400 rounded-full blur-lg right-6 top-4 z-0 transition-all duration-500 group-hover:-right-6 group-hover:scale-110" />
@@ -142,7 +143,16 @@ const Home = () => {
           </div>
         </div>
         {isGenerating && (
-          <div className="flex flex-col justify-center items-center">
+          <div
+            className="flex absolute backdrop-blur-lg  h-screen w-screen lg:hidden
+           z-100 flex-col justify-center items-center top-0 right-0"
+          >
+            <PyraLoader />
+            <h3 className="text-center">{loaderText}</h3>
+          </div>
+        )}
+        {isGenerating && (
+          <div className="lg:flex flex-col justify-center items-center hidden ">
             <PyraLoader />
             <h3 className="text-center">{loaderText}</h3>
           </div>

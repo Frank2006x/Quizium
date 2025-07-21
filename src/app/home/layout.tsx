@@ -22,9 +22,9 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+          <header className="flex h-16 max-w-screen shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
             <div className="flex px-4 flex-col-reverse mt-8">
-              <SidebarTrigger className="z-3" />
+              <SidebarTrigger className="z-5" />
 
               <div className="flex justify-center items-center gap-2">
                 <BrainCircuit className="sm:hidden" size={35} />
