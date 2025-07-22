@@ -1,5 +1,5 @@
 "use client";
-import { useQues } from "@/store/useQues";
+import { QuesState, useQues } from "@/store/useQues";
 import { redirect } from "next/navigation";
 import React from "react";
 import { BarChart3, CheckCircle, Timer } from "lucide-react";
@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ShineBorder } from "@/components/magicui/shine-border";
 
 const ResultPage = () => {
-  const { score, questions, time, clearQues } = useQues();
+  const { score, questions, time, clearQues } = useQues() as QuesState;
   console.log(time);
   const total = questions.length;
   const accuracy =
@@ -26,7 +26,7 @@ const ResultPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative w-full max-w-xl space-y-8 z-20">
+      <div className="relative w-full max-w-xl space-y-8 z-20 ">
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight mb-2">
             Quiz Summary
@@ -95,21 +95,11 @@ const ResultPage = () => {
                 />
                 <p className="bold">/{questions.length}</p>
               </div>
-              {/* <div className="font-semibold text-white">{`${score}/100`}</div> */}
             </div>
           </CardContent>
         </Card>
 
         <div className="flex justify-center gap-4 pt-2">
-          <Button
-            className="bg-emerald-600 hover:bg-emerald-700 text-white"
-            onClick={() => {
-              clearQues();
-              redirect("/home");
-            }}
-          >
-            Go Home
-          </Button>
           <Button
             variant="outline"
             className="border-gray-700 text-white hover:bg-zinc-800"
@@ -122,6 +112,17 @@ const ResultPage = () => {
             onClick={() => redirect("/quiz/answer")}
           >
             View Answers
+          </Button>
+        </div>
+        <div className="flex justify-center items-center">
+          <Button
+            className="bg-black border-2 border-amber-50 hover:bg-violet-600 text-white "
+            onClick={() => {
+              clearQues();
+              redirect("/home");
+            }}
+          >
+            Back to Home
           </Button>
         </div>
       </div>

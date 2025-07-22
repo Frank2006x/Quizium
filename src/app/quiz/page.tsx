@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Loader from "@/components/ui/BonceLoader";
 
-import { QuizData, useQues } from "@/store/useQues";
+import { QuesState, useQues } from "@/store/useQues";
 import { BrainCircuit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -16,17 +16,9 @@ enum OptionsType {
   D = "D",
 }
 
-type UseQuesReturnType = {
-  questions: QuizData;
-  setScore: (score: number) => void;
-  setTime: (time: number) => void;
-  setAnswer: (ans: { [number: number]: OptionsType }) => void;
-  setQuestions: (q: QuizData) => void;
-};
-
 const Page = () => {
   const { questions, setScore, setTime, setAnswer, setQuestions } =
-    useQues() as UseQuesReturnType;
+    useQues() as QuesState;
   const { clearInput } = useClear();
   const [quesNo, setQuesNo] = useState(0);
   const [ans, setAns] = useState<Record<number, OptionsType>>({});

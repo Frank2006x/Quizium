@@ -14,7 +14,22 @@ type AnsType = {
 
 export type QuizData = QuestionType[];
 
-export const useQues = create((set) => ({
+export interface QuesState {
+  questions: QuizData;
+  isGenerating: boolean;
+  score: number;
+  ans: AnsType;
+  time: number;
+
+  setQuestions: (q: QuizData) => void;
+  setAnswer: (a: AnsType) => void;
+  setScore: (s: number) => void;
+  setTime: (t: number) => void;
+  clearQues: () => void;
+  getQuestions: (topic: string, difficulty: string) => Promise<void>;
+}
+
+export const useQues = create<QuesState>((set) => ({
   questions: [],
   isGenerating: false,
   score: 0,

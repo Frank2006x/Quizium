@@ -72,17 +72,19 @@ const Page = () => {
   return (
     <>
       <div className="max-w-4xl mx-auto px-4 py-8 text-gray-800 dark:text-gray-100">
-        <h1 className="text-3xl font-bold mb-4 capitalize text-indigo-600 dark:text-indigo-400">
-          {questionRef.current.topic}
-        </h1>
-        <div className="mb-8 text-gray-600 dark:text-gray-300 flex justify-between">
+        <div className="flex justify-between ">
+          <h1 className="text-3xl font-bold mb-4 capitalize text-indigo-600 dark:text-indigo-400">
+            {questionRef.current.topic}
+          </h1>
+          <div onClick={() => retakeQuiz()} className="scale-75 md:scale-100">
+            <Button />
+          </div>
+        </div>
+        <div className="mb-8 text-gray-600 dark:text-gray-300 flex justify-between items-start">
           <div>
             <h1>Difficulty: {questionRef.current.difficulty}</h1>
             <br />
             <h1>Created at: {questionRef.current.createdAt.slice(0, 10)}</h1>
-          </div>
-          <div onClick={() => retakeQuiz()}>
-            <Button />
           </div>
         </div>
 
@@ -91,7 +93,7 @@ const Page = () => {
             key={index}
             className="mb-8 border p-6 rounded-2xl shadow-md bg-white dark:bg-gray-800 dark:border-gray-700"
           >
-            <h2 className="text-lg font-semibold mb-4">
+            <h2 className="text-sm md:text-lg font-semibold mb-4">
               {index + 1}. {q.question}
             </h2>
 
@@ -101,7 +103,7 @@ const Page = () => {
                 return (
                   <div
                     key={optionKey}
-                    className={`px-4 py-2 rounded-lg border transition-all duration-300 ${
+                    className={`px-4 py-2 rounded-lg border transition-all duration-300 text-xs md:text-lg ${
                       isCorrect
                         ? "bg-green-100 text-green-800 border-green-500 dark:bg-green-900 dark:text-green-200"
                         : "bg-gray-50 text-gray-800 border-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600"

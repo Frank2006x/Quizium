@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useQues } from "@/store/useQues";
+import { QuesState, useQues } from "@/store/useQues";
 import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,29 +18,26 @@ import { useRouter } from "next/navigation";
 import Loader from "@/components/ui/BonceLoader";
 type OptionKey = "A" | "B" | "C" | "D";
 
-function formatTime(seconds: number) {
-  const mins = Math.floor(seconds / 60)
-    .toString()
-    .padStart(2, "0");
-  const secs = (seconds % 60).toString().padStart(2, "0");
-  return `${mins}:${secs}`;
-}
-
 const COLORS = ["#4CAF50", "#F44336", "#607D8B"];
 
 export default function QuizReview() {
-  const { questions, ans, time } = useQues();
-  const [isLoading, setIsLoading] = useState(true);
+  const { questions, ans, time } = useQues() as QuesState;
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const router = useRouter();
   const [expanded, setExpanded] = useState<number | null>(null);
 
   const totalQuestions = questions.length;
 
-  // Convert ans object to array for easier processing
-  const answersArray = Array.from(
+  const answersArray: string[] = Array.from(
     { length: totalQuestions },
-    (_, i) => ans[i.toString()]
+    (_, i) => {
+      const a = ans[i];
+      if (a === undefined) {
+        throw new Error(`Missing answer for question ${i}`);
+      }
+      return a;
+    }
   );
 
   const correctCount = answersArray.reduce(
