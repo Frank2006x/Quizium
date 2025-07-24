@@ -29,7 +29,7 @@ export interface QuesState {
   getQuestions: (topic: string, difficulty: string) => Promise<void>;
 }
 
-export const useQues = create<QuesState>((set) => ({
+export const useQues = create((set) => ({
   questions: [],
   isGenerating: false,
   score: 0,
@@ -52,16 +52,21 @@ export const useQues = create<QuesState>((set) => ({
   },
   getQuestions: async (topic: string, difficulty: string) => {
     set({ isGenerating: true });
-    const { data: res } = await axios.post("/api/generate", {
+    const res = await axios.post("/api/generate", {
       topic,
       difficulty,
     });
+    if (res.status != 200 || res.data.success == false) {
+      set({ isGenerating: false });
+      return { error: "Failed to fetch questions" };
+    }
     console.log(res);
 
     try {
-      set({ questions: res.data, isGenerating: false });
+      set({ questions: res.data.data, isGenerating: false });
     } catch {
-      throw new Error("json parse error");
+      set({ isGenerating: false });
+      return { error: "Failed to fetch questions" };
     }
   },
 }));

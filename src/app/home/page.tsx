@@ -56,6 +56,7 @@ const Home = () => {
   const [topic, setTopic] = useState("");
   const [difficulty, setDifficulty] = useState("medium");
   const [loaderText, setLoaderText] = useState("");
+  const [thrownError, setThrownError] = useState<Error | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -73,10 +74,20 @@ const Home = () => {
 
     return () => clearInterval(interval);
   }, []);
+  // setThrownError(new Error("Something went wrong in handleGenerate"));
   const handleGenerate = async () => {
-    await getQuestions(inputVal, difficulty);
-    console.log(questions);
+    try {
+      const res = await getQuestions(inputVal, difficulty);
+      if (res?.error) {
+        setThrownError(new Error(res.error));
+      }
+    } catch {
+      setThrownError(new Error("Something went wrong in handleGenerate"));
+    }
   };
+  if (thrownError) {
+    throw thrownError;
+  }
 
   return (
     <>

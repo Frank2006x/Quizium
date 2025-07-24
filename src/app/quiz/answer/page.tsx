@@ -31,14 +31,9 @@ export default function QuizReview() {
 
   const answersArray: string[] = Array.from(
     { length: totalQuestions },
-    (_, i) => {
-      const a = ans[i];
-      if (a === undefined) {
-        throw new Error(`Missing answer for question ${i}`);
-      }
-      return a;
-    }
+    (_, i) => ans[i]
   );
+  console.log(answersArray);
 
   const correctCount = answersArray.reduce(
     (count, answer, index) =>
@@ -53,7 +48,7 @@ export default function QuizReview() {
   );
 
   const skipped = answersArray.reduce(
-    (count, answer) => (!answer ? count + 1 : count),
+    (count, answer) => (answer == undefined ? count + 1 : count),
     0
   );
 
