@@ -1,18 +1,18 @@
 import { create } from "zustand";
 import axios from "axios";
 
-type OptionKey = "A" | "B" | "C" | "D";
+export type OptionKey = "A" | "B" | "C" | "D";
 
-type QuestionType = {
+export type QuestionType = {
   question: string;
   options: Record<OptionKey, string>;
   answer: [OptionKey, string]; // [correctOption, explanation]
 };
+export type QuizData = QuestionType[];
 type AnsType = {
   [number: number]: OptionKey;
 };
 
-export type QuizData = QuestionType[];
 
 export interface QuesState {
   questions: QuizData;

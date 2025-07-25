@@ -1,7 +1,7 @@
 import axios from "axios";
 import { create } from "zustand";
 
- export type TopicType = {
+export type TopicType = {
   topic: string;
   id: string;
 };
@@ -19,13 +19,12 @@ const useTopic = create<TopicStore>((set) => ({
     try {
       set({ isLoading: true });
       const res = await axios.get("/api/topics");
-      
-      const temp = res.data.map((e: { topic: string; _id: string }) => {
 
+      const temp = res.data.map((e: { topic: string; _id: string }) => {
         return {
           topic: e.topic,
-          id: e._id
-        }
+          id: e._id,
+        };
       });
       set({ topic: temp });
     } catch (error) {

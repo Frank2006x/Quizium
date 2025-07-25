@@ -2,10 +2,12 @@
 
 import axios from "axios";
 import Loader from "@/components/ui/BonceLoader";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect, useSearchParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/greenButton";
 import { useQues } from "@/store/useQues";
+import toast, { Toaster } from "react-hot-toast";
+
 type Question = {
   _id: string;
   topic: string;
@@ -26,8 +28,9 @@ const Page = () => {
   const [showExplanation, setShowExplanation] = useState<
     Record<string, boolean>
   >({});
+  // const { thorwError, setThrownError } = useState<Error | null>(null);
   const { setQuestions } = useQues();
-
+  const router = useRouter();
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
@@ -37,9 +40,31 @@ const Page = () => {
       try {
         setIsLoading(true);
         const res = await axios.get(`/api/getQuestion?id=${id}`);
+        if (res.status != 200) {
+          toast("SomeThing went wrong", {
+            icon: "❌",
+            style: {
+              borderRadius: "10px",
+              background: "#333",
+              color: "#fff",
+            },
+          });
+          router.back();
+          return;
+        }
+
         console.log(res.data);
         questionRef.current = res.data.ques;
       } catch (err) {
+        toast("SomeThing went wrong", {
+          icon: "❌",
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
+        router.back();
         console.log("Failed to load question:", err);
       }
     }
@@ -76,6 +101,7 @@ const Page = () => {
           <h1 className="text-3xl font-bold mb-4 capitalize text-indigo-600 dark:text-indigo-400">
             {questionRef.current.topic}
           </h1>
+
           <div onClick={() => retakeQuiz()} className="scale-75 md:scale-100">
             <Button />
           </div>

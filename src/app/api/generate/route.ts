@@ -4,7 +4,7 @@ import quizModal from "@/models/quiz.modal";
 import { NextRequest } from "next/server";
 import SessionModel from "@/models/session.model";
 import connectDB from "@/lib/mongodb";
-
+import { QuizData } from "@/store/useQues";
 export async function POST(req: NextRequest) {
   connectDB();
   const body = await req.json();
@@ -62,9 +62,10 @@ export async function POST(req: NextRequest) {
     const fixed = jsonrepair(response.text);
     parsed = JSON.parse(fixed);
     console.log(parsed.data);
+    const quizData: QuizData = parsed.data;
     await quizModal.insertOne({
       userId,
-      questions: parsed.data,
+      questions: quizData,
       topic,
       difficulty,
     });
