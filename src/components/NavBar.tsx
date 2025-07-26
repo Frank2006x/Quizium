@@ -14,7 +14,6 @@ import { ModeToggle } from "./ThemeToggler";
 import { BrainCircuit } from "lucide-react";
 import { RainbowButton } from "./magicui/rainbow-button";
 import { signIn, useSession } from "next-auth/react";
-import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 export function NavbarDemo() {

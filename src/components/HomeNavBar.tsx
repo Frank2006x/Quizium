@@ -2,7 +2,6 @@
 import {
   Navbar,
   NavBody,
-  NavItems,
   MobileNav,
   NavbarButton,
   MobileNavHeader,
@@ -12,7 +11,6 @@ import {
 import { useState } from "react";
 import { ModeToggle } from "./ThemeToggler";
 import { BrainCircuit } from "lucide-react";
-import { RainbowButton } from "./magicui/rainbow-button";
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Image from "next/image";
@@ -81,7 +79,7 @@ export function HomeNavBar() {
             </DropdownMenu>
 
             <NavbarButton className="p-0  cursor-pointer">
-              <ModeToggle  />
+              <ModeToggle />
             </NavbarButton>
           </div>
         </NavBody>

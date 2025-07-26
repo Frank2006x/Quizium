@@ -37,18 +37,14 @@ export function NavProjects({
   };
   const handleDelete = async (id: string) => {
     try {
-      const res = await toast.promise(
-        axios.delete(`/api/deleteQuiz?id=${id}`),
-        {
-          loading: "Deleting quiz...",
-          success: <p>Quiz deleted!</p>,
-          error: <p>Failed to delete quiz.</p>,
-        }
-      );
+      await toast.promise(axios.delete(`/api/deleteQuiz?id=${id}`), {
+        loading: "Deleting quiz...",
+        success: <p>Quiz deleted!</p>,
+        error: <p>Failed to delete quiz.</p>,
+      });
       setTRefresh((prev) => !prev);
-      console.log(res.data);
-    } catch (err: any) {
-      console.error("Delete failed:", err.response?.data || err.message);
+    } catch {
+      console.error("Delete failed:");
     }
   };
   return (

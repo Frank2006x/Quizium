@@ -16,7 +16,7 @@ export async function DELETE(req: NextRequest) {
     if (!res) {
       return NextResponse.json({ message: "quiz not found" }, { status: 404 });
     }
-    console.log(res);
+
   } catch {
     return NextResponse.json({ message: "server error" }, { status: 500 });
   }

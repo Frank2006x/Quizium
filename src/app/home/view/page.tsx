@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/greenButton";
 import { OptionKey, QuesState, useQues } from "@/store/useQues";
 import toast from "react-hot-toast";
+import router from "next/router";
 
 type Question = {
   _id: string;
@@ -49,9 +50,8 @@ const Page = () => {
           return;
         }
 
-        console.log(res.data);
         questionRef.current = res.data.ques;
-      } catch (err) {
+      } catch {
         toast("SomeThing went wrong", {
           icon: "❌",
           style: {
@@ -61,7 +61,6 @@ const Page = () => {
           },
         });
         router.back();
-        console.log("Failed to load question:", err);
       }
     }
     fetch();

@@ -8,7 +8,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useClear } from "@/store/useClear";
-import { useQues } from "@/store/useQues";
+import { QuesState, useQues } from "@/store/useQues";
 import { LucideIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 
@@ -27,7 +27,7 @@ export function NavMain({
   }[];
 }) {
   const { clearInput } = useClear();
-  const { clearQues } = useQues();
+  const { clearQues } = useQues() as QuesState;
   return (
     <SidebarGroup>
       {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
@@ -43,7 +43,6 @@ export function NavMain({
               <SidebarMenuButton
                 tooltip={item.title}
                 onClick={() => {
-                  console.log("hello", item.url);
                   if (item.url == "/home") {
                     clearInput();
                     clearQues();

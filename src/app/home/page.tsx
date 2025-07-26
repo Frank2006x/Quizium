@@ -78,7 +78,6 @@ const Home = () => {
   const handleGenerate = async () => {
     try {
       const res = await getQuestions(inputVal, difficulty);
-      console.log(res);
       if (res?.status != 200) {
         toast("SomeThing went wrong.\nPlease try again later", {
           icon: "❌",

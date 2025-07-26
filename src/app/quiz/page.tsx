@@ -46,7 +46,7 @@ const Page = () => {
 
   const handleSelection = (letter: OptionsType, quesNo: number) => {
     setAns((prev) => ({ ...prev, [quesNo]: letter }));
-    console.log(ans);
+  
   };
 
   const computeResult = () => {

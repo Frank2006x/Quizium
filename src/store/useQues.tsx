@@ -55,7 +55,7 @@ export const useQues = create((set) => ({
   },
   getQuestions: async (topic: string, difficulty: string) => {
     set({ isGenerating: true });
-    console.log("topic", topic, difficulty);
+    
     const res = await axios.post("/api/generate", {
       topic,
       difficulty,

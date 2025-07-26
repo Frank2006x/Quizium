@@ -14,7 +14,7 @@ import { useClear } from "@/store/useClear";
 const ResultPage = () => {
   const { score, questions, time, clearQues } = useQues() as QuesState;
   const { clearInput } = useClear();
-  console.log(time);
+
   const total = questions.length;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const accuracy =

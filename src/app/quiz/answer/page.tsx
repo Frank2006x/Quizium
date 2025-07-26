@@ -31,7 +31,7 @@ export default function QuizReview() {
     { length: totalQuestions },
     (_, i) => ans[i]
   );
-  console.log(answersArray);
+  
 
   const correctCount = answersArray.reduce(
     (count, answer, index) =>

@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
     request.cookies.get("__Secure-authjs.session-token")?.value;
 
   // if no token and not on the public route (/), redirect
-  console.log("token-------------", token);
+  
   if (!token) {
     return NextResponse.redirect(new URL("/", request.url));
   }
