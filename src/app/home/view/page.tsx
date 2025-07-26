@@ -7,7 +7,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/greenButton";
 import { OptionKey, QuesState, useQues } from "@/store/useQues";
 import toast from "react-hot-toast";
-import router from "next/router";
 
 type Question = {
   _id: string;
