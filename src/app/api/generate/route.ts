@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
 - The answer must return as array where first element match one of the option key and second element is explaination to the answer.
 - Only return a single valid JSON object.`,
     config: {
-      maxOutputTokens: 1000,
+      maxOutputTokens: 2000,
       temperature: 0.1,
     },
   });

@@ -51,16 +51,13 @@ const Page = () => {
 
   const computeResult = () => {
     setIsLoading(true);
-    setTimeout(() => {
-      setAnswer(ans);
-      setIsLoading(false);
-      router.push("/quiz/result");
-    }, 2500);
+    setAnswer(ans);
     let s = 0;
     questions.forEach((q, i) => {
       if (ans[i] === q.answer[0]) s++;
     });
     setScore(s);
+    router.push("/quiz/result");
   };
 
   return (

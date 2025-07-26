@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import { QuesState, useQues } from "@/store/useQues";
 import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
 import { NumberTicker } from "@/components/magicui/number-ticker";
@@ -15,14 +15,12 @@ import {
   BrainCircuit,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Loader from "@/components/ui/BonceLoader";
 type OptionKey = "A" | "B" | "C" | "D";
 
 const COLORS = ["#4CAF50", "#F44336", "#607D8B"];
 
 export default function QuizReview() {
   const { questions, ans, time } = useQues() as QuesState;
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const router = useRouter();
   const [expanded, setExpanded] = useState<number | null>(null);
@@ -61,18 +59,7 @@ export default function QuizReview() {
     { name: "Incorrect", value: incorrect },
     { name: "Skipped", value: skipped },
   ];
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, []);
-  if (isLoading) {
-    return (
-      <div className="absolute min-w-screen backdrop-blur-3xl min-h-screen flex justify-center items-center z-10 ">
-        <Loader />
-      </div>
-    );
-  }
+
   return (
     <>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">

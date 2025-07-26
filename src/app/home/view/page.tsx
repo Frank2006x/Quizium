@@ -32,10 +32,6 @@ const Page = () => {
   const { setQuestions } = useQues();
   const router = useRouter();
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
     async function fetch() {
       try {
         setIsLoading(true);
@@ -69,7 +65,10 @@ const Page = () => {
       }
     }
     fetch();
-  }, [id]);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, [id, router]);
   const retakeQuiz = () => {
     setQuestions(questionRef.current?.questions);
     redirect("/quiz");
