@@ -32,7 +32,7 @@ const Page = () => {
   const { setQuestions } = useQues() as QuesState;
   const router = useRouter();
   useEffect(() => {
-    async function fetch() {
+    async function fetchData() {
       try {
         setIsLoading(true);
         const res = await axios.get(`/api/getQuestion?id=${id}`);
@@ -60,12 +60,11 @@ const Page = () => {
           },
         });
         router.back();
+      } finally {
+        setIsLoading(false);
       }
     }
-    fetch();
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    fetchData();
   }, [id, router]);
   const retakeQuiz = () => {
     const questions = questionRef.current?.questions;
