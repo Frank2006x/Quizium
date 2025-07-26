@@ -21,6 +21,9 @@ const josefinSans = Josefin_Sans({
 export const metadata: Metadata = {
   title: "Quizium",
   description: "AI That Challenges. You That Conquer.",
+  icons: {
+    icon: "/brain-circuit.png",
+  },
 };
 
 export default function RootLayout({
@@ -39,9 +42,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SessionProvider>
-            {children}
-          </SessionProvider>
+          <SessionProvider>{children}</SessionProvider>
         </ThemeProvider>
       </body>
     </html>
