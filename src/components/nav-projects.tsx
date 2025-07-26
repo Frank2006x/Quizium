@@ -57,7 +57,7 @@ export function NavProjects({
         <SidebarGroupLabel>Recent Quiz</SidebarGroupLabel>
         <SidebarMenu>
           {topic.map((item, index) => (
-            <SidebarMenuItem key={index}>
+            <SidebarMenuItem key={index} className="cursor-pointer">
               <SidebarMenuButton asChild>
                 <p onClick={() => handleClick(item.id)}>
                   <span>{item.topic}</span>

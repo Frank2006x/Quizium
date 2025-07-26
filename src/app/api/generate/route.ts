@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
     req.cookies.get("__Secure-authjs.session-token")?.value;
 
   const { userId } = await SessionModel.findOne({ sessionToken: token });
-  console.log(userId);
 
   const topic = body.topic;
   const difficulty = body.difficulty;
@@ -61,7 +60,7 @@ export async function POST(req: NextRequest) {
     }
     const fixed = jsonrepair(response.text);
     parsed = JSON.parse(fixed);
-    console.log(parsed.data);
+
     const quizData: QuizData = parsed.data;
     await quizModal.insertOne({
       userId,
@@ -69,8 +68,7 @@ export async function POST(req: NextRequest) {
       topic,
       difficulty,
     });
-  } catch (err: unknown) {
-    console.error("❌ Invalid JSON from AI:", err.message);
+  } catch {
     return Response.json({
       success: false,
       error: "AI returned incomplete or invalid JSON",

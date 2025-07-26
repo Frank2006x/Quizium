@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { useQues } from "@/store/useQues";
-import { ModeToggle } from "@/components/ThemeToggler";
+import { QuesState, useQues } from "@/store/useQues";
+
 import { useSession } from "next-auth/react";
 import { TextAnimate } from "@/components/magicui/text-animate";
 import PyraLoader from "@/components/pyraLoader";
@@ -19,7 +19,8 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { useClear } from "@/store/useClear";
-import { X } from "lucide-react";
+import { CircleX } from "lucide-react";
+import toast from "react-hot-toast";
 
 const loaderTexts = [
   "Summoning brain cells...",
@@ -51,13 +52,10 @@ const Home = () => {
     slogan.replace("[Username]", session!.user!.name!)
   );
   const randomSlogan = useRef("");
-  const { questions, getQuestions, isGenerating } = useQues();
+  const { questions, getQuestions, isGenerating } = useQues() as QuesState;
   const { inputVal, setInputValue } = useClear();
-
-  const [topic, setTopic] = useState("");
   const [difficulty, setDifficulty] = useState("medium");
   const [loaderText, setLoaderText] = useState("");
-  const [thrownError, setThrownError] = useState<Error | null>(null);
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const router = useRouter();
 
@@ -80,16 +78,28 @@ const Home = () => {
   const handleGenerate = async () => {
     try {
       const res = await getQuestions(inputVal, difficulty);
-      if (res?.error) {
-        setThrownError(new Error(res.error));
+      console.log(res);
+      if (res?.status != 200) {
+        toast("SomeThing went wrong.\nPlease try again later", {
+          icon: "❌",
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
       }
     } catch {
-      setThrownError(new Error("Something went wrong in handleGenerate"));
+      toast("SomeThing went wrong .\nPlease try again later", {
+        icon: "❌",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
     }
   };
-  if (thrownError) {
-    throw thrownError;
-  }
 
   return (
     <>
@@ -99,7 +109,7 @@ const Home = () => {
             This application is currently under development. Some features may
             not work as expected.
           </p>
-          <X onClick={() => setShowDisclaimer(false)} />
+          <CircleX onClick={() => setShowDisclaimer(false)} />
         </div>
       )}
       <div className="h-100 flex  flex-col  items-center  m-auto ">
@@ -126,6 +136,11 @@ const Home = () => {
             value={inputVal}
             placeholder="Enter your Topic"
             onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleGenerate();
+              }
+            }}
             className={` box-content rounded-lg  focus:border-0 ring-0 focus:outline-none focus:ring-0 max-w-full focus:border-none border-none px-4 py-3 dark:text-white text-black   transition ${
               questions.length != 0 ? "hidden" : "block"
             }`}

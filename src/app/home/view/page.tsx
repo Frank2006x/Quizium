@@ -5,8 +5,8 @@ import Loader from "@/components/ui/BonceLoader";
 import { redirect, useSearchParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/greenButton";
-import { useQues } from "@/store/useQues";
-import toast, { Toaster } from "react-hot-toast";
+import { OptionKey, QuesState, useQues } from "@/store/useQues";
+import toast from "react-hot-toast";
 
 type Question = {
   _id: string;
@@ -17,7 +17,7 @@ type Question = {
     _id: string;
     question: string;
     options: Record<string, string>;
-    answer: [string, string];
+    answer: [OptionKey, string];
   }[];
 };
 const Page = () => {
@@ -28,8 +28,8 @@ const Page = () => {
   const [showExplanation, setShowExplanation] = useState<
     Record<string, boolean>
   >({});
-  // const { thorwError, setThrownError } = useState<Error | null>(null);
-  const { setQuestions } = useQues();
+
+  const { setQuestions } = useQues() as QuesState;
   const router = useRouter();
   useEffect(() => {
     async function fetch() {
@@ -70,7 +70,19 @@ const Page = () => {
     }, 2000);
   }, [id, router]);
   const retakeQuiz = () => {
-    setQuestions(questionRef.current?.questions);
+    const questions = questionRef.current?.questions;
+    if (!questions) {
+      toast("Questions not available", {
+        icon: "⚠️",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+      return;
+    }
+    setQuestions(questions);
     redirect("/quiz");
   };
 

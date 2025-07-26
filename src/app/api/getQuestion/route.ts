@@ -1,24 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
 import quizModal from "@/models/quiz.modal";
 import { OptionKey, QuestionType, QuizData } from "@/store/useQues";
-
-function isOptionKey(key: any): key is OptionKey {
-  return ["A", "B", "C", "D"].includes(key);
+function isOptionKey(key: unknown): key is OptionKey {
+  return typeof key === "string" && ["A", "B", "C", "D"].includes(key);
 }
 
-function isQuestionType(obj: any): obj is QuestionType {
+function isQuestionType(obj: unknown): obj is QuestionType {
+  if (typeof obj !== "object" || obj === null) {
+    return false;
+  }
+
+  const maybe = obj as {
+    question?: unknown;
+    options?: Record<string, unknown>;
+    answer?: unknown;
+  };
+
   return (
-    typeof obj === "object" &&
-    typeof obj.question === "string" &&
-    typeof obj.options === "object" &&
-    ["A", "B", "C", "D"].every((key) => typeof obj.options[key] === "string") &&
-    Array.isArray(obj.answer) &&
-    obj.answer.length === 2 &&
-    isOptionKey(obj.answer[0]) &&
-    typeof obj.answer[1] === "string"
+    typeof maybe.question === "string" &&
+    typeof maybe.options === "object" &&
+    maybe.options !== null &&
+    ["A", "B", "C", "D"].every(
+      (key) => typeof maybe.options?.[key] === "string"
+    ) &&
+    Array.isArray(maybe.answer) &&
+    maybe.answer.length === 2 &&
+    isOptionKey(maybe.answer[0]) &&
+    typeof maybe.answer[1] === "string"
   );
 }
-function isQuizData(data: any): data is QuizData {
+
+function isQuizData(data: unknown): data is QuizData {
   return Array.isArray(data) && data.every(isQuestionType);
 }
 

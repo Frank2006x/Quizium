@@ -1,11 +1,11 @@
 "use client";
 
-import { useQues } from "@/store/useQues";
+import { QuesState, useQues } from "@/store/useQues";
 import { useRouter } from "next/navigation";
 import React, { ReactNode, useEffect } from "react";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const { questions } = useQues();
+  const { questions } = useQues() as QuesState;
   const router = useRouter();
 
   useEffect(() => {

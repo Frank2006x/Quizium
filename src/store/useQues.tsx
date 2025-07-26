@@ -10,10 +10,13 @@ export type QuestionType = {
 };
 export type QuizData = QuestionType[];
 type AnsType = {
-  [number: number]: OptionKey;
+  [key: string]: OptionKey;
 };
 
-
+type returnType = {
+  error?: string;
+  status: number;
+};
 export interface QuesState {
   questions: QuizData;
   isGenerating: boolean;
@@ -26,7 +29,7 @@ export interface QuesState {
   setScore: (s: number) => void;
   setTime: (t: number) => void;
   clearQues: () => void;
-  getQuestions: (topic: string, difficulty: string) => Promise<void>;
+  getQuestions: (topic: string, difficulty: string) => Promise<returnType>;
 }
 
 export const useQues = create((set) => ({
@@ -52,21 +55,22 @@ export const useQues = create((set) => ({
   },
   getQuestions: async (topic: string, difficulty: string) => {
     set({ isGenerating: true });
+    console.log("topic", topic, difficulty);
     const res = await axios.post("/api/generate", {
       topic,
       difficulty,
     });
     if (res.status != 200 || res.data.success == false) {
       set({ isGenerating: false });
-      return { error: "Failed to fetch questions" };
+      return { error: "Failed to fetch questions", status: 404 };
     }
-    console.log(res);
 
     try {
       set({ questions: res.data.data, isGenerating: false });
+      return { status: 200 };
     } catch {
       set({ isGenerating: false });
-      return { error: "Failed to fetch questions" };
+      return { error: "Failed to fetch questions", status: 500 };
     }
   },
 }));
