@@ -67,6 +67,7 @@ const Page = () => {
           <Loader />
         </div>
       )}
+     
       <div className="min-h-screen w-full px-4 py-6 dark:bg-black bg-white text-black dark:text-white">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">

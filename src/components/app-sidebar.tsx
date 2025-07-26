@@ -39,9 +39,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session, status } = useSession();
   const user = session?.user;
   const { topic, setTopic, isLoading } = useTopic();
+  const [tRefresh, setTRefresh] = React.useState(false);
   React.useEffect(() => {
     setTopic();
-  }, [setTopic]);
+  }, [setTopic, tRefresh]);
 
   if (status === "loading") return <Loader />;
   if (!session) return redirect("/");
@@ -55,7 +56,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent className="mt-7">
         <NavMain items={data.navMain} />
-        {isLoading ? <TopicLoader /> : <NavProjects topic={topic} />}
+        {isLoading ? (
+          <TopicLoader />
+        ) : (
+          <NavProjects topic={topic} setTRefresh={setTRefresh} />
+        )}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user!} />

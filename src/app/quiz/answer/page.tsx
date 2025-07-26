@@ -63,7 +63,7 @@ export default function QuizReview() {
   return (
     <>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
-        {/* Header */}
+      
         <div></div>
         <div className="flex justify-between text-center space-y-2">
           <div
@@ -83,13 +83,10 @@ export default function QuizReview() {
           <BrainCircuit size={35} />
         </div>
 
-        {/* Stats and Pie Chart */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          {/* Stats Card */}
           <Card className="space-y-6 bg-white dark:bg-gray-900 p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700 ">
             <CardContent className="space-y-6  p-6 rounded-xl">
-              {/* Score */}
               <div className="flex justify-between items-center text-sm sm:text-base">
                 <div className="flex items-center gap-2 text-gray-300">
                   <BarChart3 className="text-yellow-400 w-5 h-5" />
@@ -105,7 +102,6 @@ export default function QuizReview() {
                 </div>
               </div>
 
-              {/* Time Taken */}
               <div className="flex justify-between items-center text-sm sm:text-base">
                 <div className="flex items-center gap-2 text-gray-300">
                   <Timer className="text-blue-400 w-5 h-5" />
@@ -128,7 +124,6 @@ export default function QuizReview() {
                 </div>
               </div>
 
-              {/* Accuracy */}
               <div className="flex justify-between items-center text-sm sm:text-base">
                 <div className="flex items-center gap-2 text-gray-300">
                   <CheckCircle className="text-green-400 w-5 h-5" />
@@ -144,7 +139,6 @@ export default function QuizReview() {
                 </div>
               </div>
 
-              {/* Correct */}
               <div className="flex justify-between items-center text-sm sm:text-base">
                 <div className="flex items-center gap-2 text-gray-300">
                   <CheckCircle
@@ -162,7 +156,6 @@ export default function QuizReview() {
                 </div>
               </div>
 
-              {/* Incorrect */}
               <div className="flex justify-between items-center text-sm sm:text-base">
                 <div className="flex items-center gap-2 text-gray-300">
                   <XCircle className="w-5 h-5" style={{ color: COLORS[1] }} />
@@ -177,7 +170,6 @@ export default function QuizReview() {
                 </div>
               </div>
 
-              {/* Skipped */}
               <div className="flex justify-between items-center text-sm sm:text-base">
                 <div className="flex items-center gap-2 text-gray-300">
                   <SkipForward
@@ -197,7 +189,6 @@ export default function QuizReview() {
             </CardContent>
           </Card>
 
-          {/* Pie Chart */}
           <div className="h-full bg-white dark:bg-gray-900 p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700 space-y-4">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
               Answer Distribution
@@ -234,7 +225,6 @@ export default function QuizReview() {
           </div>
         </div>
 
-        {/* Questions Section */}
         <div className="space-y-6">
           <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
             Question Breakdown
@@ -310,7 +300,6 @@ export default function QuizReview() {
                       })}
                     </div>
 
-                    {/* Explanation toggle */}
                     <button
                       className="mt-4 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
                       onClick={() =>

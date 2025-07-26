@@ -9,9 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ShineBorder } from "@/components/magicui/shine-border";
 import Loader from "@/components/ui/BonceLoader";
+import { useClear } from "@/store/useClear";
 
 const ResultPage = () => {
   const { score, questions, time, clearQues } = useQues() as QuesState;
+  const { clearInput } = useClear();
   console.log(time);
   const total = questions.length;
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -129,6 +131,7 @@ const ResultPage = () => {
               onClick={() => {
                 setIsLoading(true);
                 clearQues();
+                clearInput();
                 redirect("/home");
               }}
             >

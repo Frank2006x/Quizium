@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
 - Only return a single valid JSON object.`,
     config: {
       maxOutputTokens: 2000,
-      temperature: 0.1,
+      temperature: 0.2,
     },
   });
 

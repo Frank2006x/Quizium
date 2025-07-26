@@ -12,6 +12,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { BrainCircuit } from "lucide-react";
 import { ModeToggle } from "@/components/ThemeToggler";
 import { Toaster } from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
   const { status } = useSession();
@@ -29,7 +30,10 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
               <Toaster position="top-center" containerClassName="z-10" />
               <div className="flex justify-center items-center gap-2">
                 <BrainCircuit className="sm:hidden" size={35} />
-                <h1 className="font-josefin-sans text-2xl text-center">
+                <h1
+                  className="font-josefin-sans text-2xl text-center cursor-pointer"
+                  onClick={() => redirect("/")}
+                >
                   Quizium
                 </h1>
               </div>
