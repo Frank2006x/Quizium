@@ -2,9 +2,9 @@
 
 Quizium is a Next.js application that allows users to generate, take, and manage AI-powered quizzes.
 
-## Live Demo
+## Live Application
 
-[View Live Demo](https://quizium-nine.vercel.app/)
+[View Live ](https://quizium-nine.vercel.app/)
 
 ## 🛠 Tech Stack
 
