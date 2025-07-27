@@ -189,7 +189,7 @@ export default function QuizReview() {
             </CardContent>
           </Card>
 
-          <div className="h-full bg-white dark:bg-gray-900 p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700 space-y-4">
+          <div className="h-100  md:h-full bg-white dark:bg-gray-900 p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700 space-y-4">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
               Answer Distribution
             </h3>
