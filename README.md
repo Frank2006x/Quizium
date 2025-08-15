@@ -262,6 +262,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Advanced analytics and insights
 - [ ] Multi-language support
 
+## 📄 License
+
+Quizium is licensed under  
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+- ✅ Free for personal, educational, and non-profit use  
+- ✅ Open for contributions and improvements  
+- ❌ No commercial use without permission  
+
+**Commercial Licensing**  
+Contact [you@yourdomain.com] for commercial licensing inquiries.
+
 ## 📞 Support
 
 If you encounter any issues or have questions:
