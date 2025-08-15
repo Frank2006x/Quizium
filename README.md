@@ -237,14 +237,11 @@ We welcome contributions! Please follow these steps:
 - Test your changes thoroughly
 - Update documentation if needed
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
 - **Google Gemini AI** for powerful question generation
-- **Radix UI** for excellent accessibility-focused components
+- **shadcn ui** for excellent accessibility-focused components
 - **NextAuth.js** for seamless authentication
 - **Vercel** for reliable hosting platform
 
@@ -260,7 +257,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Add collaborative quiz features
 - [ ] Mobile app development
 - [ ] Advanced analytics and insights
-- [ ] Multi-language support
 
 ## 📄 License
 
