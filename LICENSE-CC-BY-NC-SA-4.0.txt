@@ -1,0 +1,21 @@
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+
+Copyright (c) [2025] [Frank2006x]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the “Software”), to deal
+in the Software under the following terms:
+
+You are free to:
+  • Share — copy and redistribute the Software in any medium or format
+  • Adapt — remix, transform, and build upon the Software
+
+Under the following terms:
+  • Attribution — You must give appropriate credit, provide a link to the
+    license, and indicate if changes were made.
+  • NonCommercial — You may not use the Software for commercial purposes.
+  • ShareAlike — If you remix, transform, or build upon the Software, you
+    must distribute your contributions under the same license.
+
+To view a copy of this license, visit  
+<https://creativecommons.org/licenses/by-nc-sa/4.0/>.
