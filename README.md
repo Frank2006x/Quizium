@@ -272,7 +272,7 @@ Quizium is licensed under
 - ❌ No commercial use without permission  
 
 **Commercial Licensing**  
-Contact [you@yourdomain.com] for commercial licensing inquiries.
+Contact [frank2006x@gmail.com] for commercial licensing inquiries.
 
 ## 📞 Support
 
