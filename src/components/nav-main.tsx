@@ -38,6 +38,9 @@ export function NavMain({
     t.topic.toLowerCase().includes(searchQuery.toLowerCase())
   );
   useEffect(() => {
+    setSearchQuery("");
+  }, []); 
+  useEffect(() => {
     filteredTopics;
   }, [searchQuery]);
 
@@ -75,6 +78,10 @@ export function NavMain({
           {filteredTopics.map((topicItem) => (
           <li
           key={topicItem.id}
+          onClick={() => {
+            setOpenSearch(false);
+            redirect(`/home/view?id=${topicItem.id}`)
+          }}
           className="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer text-gray-900 dark:text-gray-100 transition-colors duration-150"
           >
           {topicItem.topic.split(" ").slice(0, 3).join(" ")}
