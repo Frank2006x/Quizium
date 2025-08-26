@@ -29,7 +29,7 @@ const data = {
     },
     {
       title: "Search Quiz",
-      url: "#",
+      url: "/home/search",
       icon: SearchIcon,
     },
   ],

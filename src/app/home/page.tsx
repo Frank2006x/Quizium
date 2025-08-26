@@ -56,7 +56,7 @@ const Home = () => {
   const { inputVal, setInputValue } = useClear();
   const [difficulty, setDifficulty] = useState("medium");
   const [loaderText, setLoaderText] = useState("");
-  const [showDisclaimer, setShowDisclaimer] = useState(true);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -102,15 +102,6 @@ const Home = () => {
 
   return (
     <>
-      {showDisclaimer && (
-        <div className="bg-red-500 absolute bottom-0 w-full z-10 h-10 flex justify-center items-center gap-2">
-          <p>
-            This application is currently under development. Some features may
-            not work as expected.
-          </p>
-          <CircleX onClick={() => setShowDisclaimer(false)} />
-        </div>
-      )}
       <div className="h-100 flex  flex-col  items-center  m-auto ">
         {randomSlogan && (
           <TextAnimate
