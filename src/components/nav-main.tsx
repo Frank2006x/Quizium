@@ -52,10 +52,10 @@ export function NavMain({
         onClick={() => setOpenSearch(false)}
       >
         <div
-        className="bg-white dark:bg-gray-800 rounded-xl p-6 w-130 h-96 shadow-2xl border border-gray-200 dark:border-gray-600 flex flex-col"
+        className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-130 h-96 shadow-2xl border border-gray-200 dark:border-gray-600 flex flex-col"
         onClick={(e) => e.stopPropagation()}
         >
-        <div className="flex justify-between items-center mb-6 gap-4 align-middle">
+        <div className="flex justify-between items-center  gap-4 align-middle">
           <input
           type="text"
           placeholder="Search quiz..."
@@ -70,6 +70,7 @@ export function NavMain({
           ×
           </button>
         </div>
+        <hr className="border-t border-gray-200 dark:border-gray-600 m-4" />
         <h3 className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-3">
           Available Quiz:
         </h3>
