@@ -18,8 +18,8 @@ export async function POST(req: NextRequest) {
   const difficulty = body.difficulty;
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
-    contents: `Generate 15 multiple-choice questions on the topic "${topic}" in difficuly "${difficulty}". Return the response as a JSON object in this exact format:
+    model: "gemini-2.5-flash",
+    contents: `Generate 10 multiple-choice questions on the topic "${topic}" in difficuly "${difficulty}". Return the response as a JSON object in this exact format:
     
     {
       "success": true,
