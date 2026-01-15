@@ -1,6 +1,6 @@
 "use client";
 
-import {useState } from "react";
+import { useState } from "react";
 import { QuesState, useQues } from "@/store/useQues";
 import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
 import { NumberTicker } from "@/components/magicui/number-ticker";
@@ -31,7 +31,6 @@ export default function QuizReview() {
     { length: totalQuestions },
     (_, i) => ans[i]
   );
-  
 
   const correctCount = answersArray.reduce(
     (count, answer, index) =>
@@ -63,7 +62,6 @@ export default function QuizReview() {
   return (
     <>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
-      
         <div></div>
         <div className="flex justify-between text-center space-y-2">
           <div
@@ -82,7 +80,6 @@ export default function QuizReview() {
           </div>
           <BrainCircuit size={35} />
         </div>
-
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           <Card className="space-y-6 bg-white dark:bg-gray-900 p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700 ">

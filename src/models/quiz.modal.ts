@@ -31,6 +31,7 @@ const quizSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
       required: true,
+      index: true,
     },
     questions: [questionSchema],
     topic: { type: String, required: true },
