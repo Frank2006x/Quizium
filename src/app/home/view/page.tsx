@@ -133,7 +133,7 @@ const Page = () => {
 
             <div className="space-y-2">
               {Object.entries(q.options).map(([optionKey, optionText]) => {
-                const isCorrect = optionKey === q.answer[0];
+                const isCorrect = optionKey === q.answer.option;
                 return (
                   <div
                     key={optionKey}
@@ -158,7 +158,7 @@ const Page = () => {
 
             {showExplanation[q._id] && (
               <div className="mt-4 bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-400 dark:border-blue-600 p-4 rounded">
-                <strong>Explanation:</strong> {q.answer[1]}
+                <strong>Explanation:</strong> {q.answer.text}
               </div>
             )}
           </div>

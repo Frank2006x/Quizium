@@ -1,10 +1,35 @@
 import { GoogleGenAI } from "@google/genai";
 import { jsonrepair } from "jsonrepair";
 import quizModal from "@/models/quiz.modal";
-import { NextRequest } from "next/server";
+import { after, NextRequest } from "next/server";
 import SessionModel from "@/models/session.model";
 import connectDB from "@/lib/mongodb";
 import { QuizData } from "@/store/useQues";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { SystemMessage, HumanMessage } from "@langchain/core/messages";
+import { createAgent } from "langchain";
+
+import * as z from "zod";
+
+const ResponseSchema = z.object({
+  success: z.boolean(),
+  data: z.array(
+    z.object({
+      question: z.string(),
+      options: z.object({
+        A: z.string(),
+        B: z.string(),
+        C: z.string(),
+        D: z.string(),
+      }),
+      answer: z.object({
+        option: z.enum(["A", "B", "C", "D"]),
+        text: z.string(),
+      }),
+    })
+  ),
+});
+
 export async function POST(req: NextRequest) {
   connectDB();
   const body = await req.json();
@@ -16,65 +41,73 @@ export async function POST(req: NextRequest) {
 
   const topic = body.topic;
   const difficulty = body.difficulty;
-  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-  const response = await ai.models.generateContent({
+  const llm = new ChatGoogleGenerativeAI({
+    temperature: 0.2,
     model: "gemini-2.5-flash",
-    contents: `Generate 10 multiple-choice questions on the topic "${topic}" in difficuly "${difficulty}". Return the response as a JSON object in this exact format:
-    
-    {
-      "success": true,
-      "data": [
-        {
-          "question": "Question here",
-          "options": {
-            "A": "Option A",
-        "B": "Option B",
-        "C": "Option C",
-        "D": "Option D"
-        },
-        "answer": ["CorrectOptionKey","explanation to the answer"]
-        },
-        ...
-  ]
-}
+    maxOutputTokens: 10000,
+    apiKey: process.env.GEMINI_API_KEY,
+  });
+ 
+  const agent = createAgent({
+    model: llm,
+    responseFormat: ResponseSchema,
+    systemPrompt: `You are an expert quiz question generator. Generate 10 multiple-choice questions in JSON format with four options (A, B, C, D) and indicate the correct answer. Ensure the questions are on the specified topic and difficulty level. The output should be a JSON object with a "data" field containing an array of questions.`,
+  });
+  const userMsg = new HumanMessage(
+    `Generate 10 multiple-choice questions on the topic "${topic}" in difficuly "${difficulty}"`
+  );
 
-- Do NOT include any text or explanation before or after the JSON.
-- Do NOT wrap the JSON in code blocks (no \`\`\`).
-- All option keys must be A, B, C, D.
-- The answer must return as array where first element match one of the option key and second element is explaination to the answer.
-- Only return a single valid JSON object.`,
-    config: {
-      maxOutputTokens: 10000,
-      temperature: 0.2,
-    },
+  
+
+  const response = await agent.invoke({
+    messages: [userMsg],
   });
 
-  let parsed = null;
+  
 
-  try {
-    if (response.text === undefined) {
-      return Response.json({
-        success: false,
-        error: "quiz not generated please try again later",
-      });
-    }
-    const fixed = jsonrepair(response.text);
-    parsed = JSON.parse(fixed);
+  // try {
+  //   if (response.su === undefined) {
+  //     return Response.json({
+  //       success: false,
+  //       error: "quiz not generated please try again later",
+  //     });
+  //   }
+  //   const fixed = jsonrepair(response.text);
+  //   parsed = JSON.parse(fixed);
 
-    const quizData: QuizData = parsed.data;
-    await quizModal.insertOne({
-      userId,
-      questions: quizData,
-      topic,
-      difficulty,
-    });
-  } catch {
+  //   const quizData: QuizData = parsed.data;
+  //   await quizModal.insertOne({
+  //     userId,
+  //     questions: quizData,
+  //     topic,
+  //     difficulty,
+  //   });
+  // } catch {
+  //   return Response.json({
+  //     success: false,
+  //     error: "AI returned incomplete or invalid JSON",
+  //     questions: response.text,
+  //   });
+  // }
+  // if(response.success === false){
+  //   return Response.json({
+  //     success: false,
+  //     error: "quiz not generated please try again later",
+  //   });
+  // }
+  console.log("response", response.structuredResponse);
+  if(!response.structuredResponse.success){
     return Response.json({
       success: false,
-      error: "AI returned incomplete or invalid JSON",
-      questions: response.text,
+      error: "quiz not generated please try again later",
     });
   }
-
-  return Response.json({ success: true, data: parsed.data });
+  const quizData: QuizData = response.structuredResponse.data;
+  await quizModal.insertOne({
+    userId,
+    questions: quizData,
+    topic,
+    difficulty,
+  });
+  return Response.json({ success: true, data: response.structuredResponse.data });
 }

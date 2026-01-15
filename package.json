@@ -11,6 +11,8 @@
   "dependencies": {
     "@auth/mongodb-adapter": "^3.9.0",
     "@google/genai": "^1.7.0",
+    "@langchain/core": "^1.1.15",
+    "@langchain/google-genai": "^2.1.10",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-collapsible": "^1.1.11",
     "@radix-ui/react-dialog": "^1.1.14",
@@ -27,6 +29,7 @@
     "dotenv": "^16.5.0",
     "icons-react": "^3.7.1",
     "jsonrepair": "^3.12.0",
+    "langchain": "^1.2.10",
     "lucide-react": "^0.520.0",
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.3",
@@ -41,6 +44,7 @@
     "recharts": "^3.1.0",
     "styled-components": "^6.1.19",
     "tailwind-merge": "^3.3.1",
+    "zod": "^4.3.5",
     "zustand": "^5.0.5"
   },
   "devDependencies": {

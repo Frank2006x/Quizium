@@ -1,17 +1,24 @@
 import { create } from "zustand";
 import axios from "axios";
+import options from "@/components/options";
 
-export type OptionKey = "A" | "B" | "C" | "D";
 
-export type QuestionType = {
+export type Question = {
   question: string;
-  options: Record<OptionKey, string>;
-  answer: [OptionKey, string]; // [correctOption, explanation]
+  options: {
+    A: string;
+    B: string;
+    C: string;
+    D: string;
+  };
+  answer: {
+    option: "A" | "B" | "C" | "D";
+    text: string;
+  };
 };
-export type QuizData = QuestionType[];
-type AnsType = {
-  [key: string]: OptionKey;
-};
+
+export type QuizData = Question[];
+
 
 type returnType = {
   error?: string;
@@ -21,11 +28,11 @@ export interface QuesState {
   questions: QuizData;
   isGenerating: boolean;
   score: number;
-  ans: AnsType;
+  ans: Record<string, "A" | "B" | "C" | "D">;
   time: number;
 
   setQuestions: (q: QuizData) => void;
-  setAnswer: (a: AnsType) => void;
+  setAnswer: (a: Record<string, "A" | "B" | "C" | "D">) => void;
   setScore: (s: number) => void;
   setTime: (t: number) => void;
   clearQues: () => void;
@@ -40,7 +47,7 @@ export const useQues = create((set) => ({
   setQuestions: (q: QuizData) => {
     set({ questions: q });
   },
-  setAnswer: (a: AnsType) => {
+  setAnswer: (a: Record<string, "A" | "B" | "C" | "D">) => {
     set({ ans: a });
   },
   setScore: (s: number) => {
@@ -55,7 +62,7 @@ export const useQues = create((set) => ({
   },
   getQuestions: async (topic: string, difficulty: string) => {
     set({ isGenerating: true });
-    
+
     const res = await axios.post("/api/generate", {
       topic,
       difficulty,

@@ -35,13 +35,13 @@ export default function QuizReview() {
 
   const correctCount = answersArray.reduce(
     (count, answer, index) =>
-      answer === questions[index].answer[0] ? count + 1 : count,
+      answer === questions[index].answer.option ? count + 1 : count,
     0
   );
 
   const incorrect = answersArray.reduce(
     (count, answer, index) =>
-      answer && answer !== questions[index].answer[0] ? count + 1 : count,
+      answer && answer !== questions[index].answer.option ? count + 1 : count,
     0
   );
 
@@ -231,7 +231,7 @@ export default function QuizReview() {
           </h2>
 
           {questions.map((item, index) => {
-            const correct = item.answer[0];
+            const correct = item.answer.option;
             const userSelected = ans[index.toString()];
             const isCorrect = userSelected === correct;
             const isSkipped = !userSelected;
@@ -323,7 +323,7 @@ export default function QuizReview() {
                           Explanation:
                         </h4>
                         <p className="text-gray-600 dark:text-gray-300">
-                          {item.answer[1]}
+                          {item.answer.text}
                         </p>
                       </div>
                     )}

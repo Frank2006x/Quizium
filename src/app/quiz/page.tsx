@@ -46,7 +46,6 @@ const Page = () => {
 
   const handleSelection = (letter: OptionsType, quesNo: number) => {
     setAns((prev) => ({ ...prev, [quesNo]: letter }));
-  
   };
 
   const computeResult = () => {
@@ -54,7 +53,7 @@ const Page = () => {
     setAnswer(ans);
     let s = 0;
     questions.forEach((q, i) => {
-      if (ans[i] === q.answer[0]) s++;
+      if (ans[i] === q.answer.option) s++;
     });
     setScore(s);
     router.push("/quiz/result");
@@ -67,7 +66,7 @@ const Page = () => {
           <Loader />
         </div>
       )}
-     
+
       <div className="min-h-screen w-full px-4 py-6 dark:bg-black bg-white text-black dark:text-white">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">

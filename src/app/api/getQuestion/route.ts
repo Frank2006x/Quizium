@@ -23,10 +23,10 @@ function isQuestionType(obj: unknown): obj is QuestionType {
     ["A", "B", "C", "D"].every(
       (key) => typeof maybe.options?.[key] === "string"
     ) &&
-    Array.isArray(maybe.answer) &&
-    maybe.answer.length === 2 &&
-    isOptionKey(maybe.answer[0]) &&
-    typeof maybe.answer[1] === "string"
+    typeof maybe.answer === "object" &&
+    maybe.answer !== null &&
+    isOptionKey((maybe.answer as any).option) &&
+    typeof (maybe.answer as any).text === "string"
   );
 }
 

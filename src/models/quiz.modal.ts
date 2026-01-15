@@ -5,7 +5,10 @@ type OptionKey = "A" | "B" | "C" | "D";
 interface IQuestions extends Document {
   question: string;
   options: Record<OptionKey, string>;
-  answer: [OptionKey, string];
+  answer: {
+    option: OptionKey;
+    text: string;
+  };
 }
 
 const questionSchema = new Schema<IQuestions>({
@@ -17,8 +20,8 @@ const questionSchema = new Schema<IQuestions>({
     D: { type: String, required: true },
   },
   answer: {
-    type: [String],
-    required: true,
+    option: { type: String, enum: ["A", "B", "C", "D"], required: true },
+    text: { type: String, required: true },
   },
 });
 
