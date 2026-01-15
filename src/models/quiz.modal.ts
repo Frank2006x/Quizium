@@ -42,4 +42,8 @@ const quizSchema = new mongoose.Schema(
   }
 );
 
+quizSchema.index({ userId: 1, createdAt: -1 });
+
+
+
 export default mongoose.models.Quiz || mongoose.model("Quiz", quizSchema);

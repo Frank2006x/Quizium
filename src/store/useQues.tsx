@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import axios from "axios";
-import options from "@/components/options";
 
 
 export type Question = {
