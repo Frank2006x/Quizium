@@ -16,9 +16,14 @@ type Question = {
   questions: {
     _id: string;
     question: string;
-    options: Record<string, string>;
+    options: {
+      A: string;
+      B: string;
+      C: string;
+      D: string;
+    };
     answer: {
-      option: string;
+      option: "A" | "B" | "C" | "D";
       text: string;
     };
   }[];
