@@ -5,7 +5,7 @@ import Loader from "@/components/ui/BonceLoader";
 import { redirect, useSearchParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/greenButton";
-import { OptionKey, QuesState, useQues } from "@/store/useQues";
+import { QuesState, useQues } from "@/store/useQues";
 import toast from "react-hot-toast";
 
 type Question = {
@@ -17,7 +17,10 @@ type Question = {
     _id: string;
     question: string;
     options: Record<string, string>;
-    answer: [OptionKey, string];
+    answer: {
+      option: string;
+      text: string;
+    };
   }[];
 };
 const Page = () => {
